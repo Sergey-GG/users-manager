@@ -1,20 +1,22 @@
 package springboot.webapp.usersmanager.Services;
 
 import org.springframework.stereotype.Service;
-import springboot.webapp.usersmanager.entities.ERole;
 import springboot.webapp.usersmanager.entities.User;
 
 import java.util.List;
 
 @Service
 public interface UserService {
-    List<User> getUsers();
+    List<User> getAll();
 
-    void saveUser(User user);
+    void save(User user);
 
-    void updateUser(String name, String surname, String email, ERole role, Integer userId);
+    void update(User user, int userId);
 
-    User getUser(int id);
+    User get(int id);
 
-    void deleteUser(int id);
+    void delete(int id);
+
+    boolean existsById(int id);
+    boolean existsByEmail(String email);
 }

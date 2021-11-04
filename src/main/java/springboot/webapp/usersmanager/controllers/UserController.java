@@ -1,53 +1,58 @@
 package springboot.webapp.usersmanager.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.webapp.usersmanager.Services.UserService;
 import springboot.webapp.usersmanager.entities.User;
 
-
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api")
 public class UserController {
 
-    UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
+    private UserService userService;
 
     @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<List<User>> getAll() {
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable int id) {
-        return userService.getUser(id);
+    public ResponseEntity<User> get(@PathVariable int id) {
+        return new ResponseEntity<>(userService.get(id), HttpStatus.OK);
     }
 
     @PostMapping("/users/new")
-    public String createUser(@RequestBody User user) {
-        userService.saveUser(user);
-        return "User has been created." + " Created user:\n" + user;
+    public ResponseEntity<String> create(@RequestBody User user) {
+        if (!userService.existsByEmail(user.getEmail())) {
+            userService.save(user);
+            return new ResponseEntity<>("User has been created." + " Created user:\n" + user.getId(), HttpStatus.OK);
+        } else
+            return new ResponseEntity<>("The user with email " + user.getEmail() + " is already created.", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/user/{id}/update")
-//    @PutMapping("/user/{id}")
-    public String updateUser(@RequestBody User user, @PathVariable int id) {
-        userService.updateUser(user.getName(), user.getSurname(), user.getEmail(), user.getRole(), id);
-        return "User has been updated." + " Updated user:\n" + user;
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<String> update(@RequestBody User user, @PathVariable int id) {
+        if (userService.existsById(id)) {
+            if (!userService.existsByEmail(user.getEmail())) {
+                userService.update(user, id);
+                return new ResponseEntity<>("User with id:" + id + " has been successfully updated.", HttpStatus.OK);
+            } else return new ResponseEntity<>("The user with email " + user.getEmail() + " is already created.", HttpStatus.BAD_REQUEST);
+        } else
+            return new ResponseEntity<>("Can't update the user with id:" + id + " because he is missing.", HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/user/{id}/delete")
-//    @DeleteMapping("user/{id}")
-    public String deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
-        return "User has been deleted.";
+    @DeleteMapping("user/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id) {
+        if (userService.existsById(id)) {
+            userService.delete(id);
+            return new ResponseEntity<>("User has been deleted.", HttpStatus.OK);
+        } else
+            return new ResponseEntity<>("Can't delete user with id:" + id + " because he is missing.", HttpStatus.NOT_FOUND);
     }
-
 }

@@ -1,16 +1,13 @@
 package springboot.webapp.usersmanager.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -24,17 +21,11 @@ public class User {
     @Column(nullable = false)
     private String surname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ERole role;
+    private Role role;
 
-    public User(String name, String surname, String email, ERole role) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.role = role;
-    }
 }

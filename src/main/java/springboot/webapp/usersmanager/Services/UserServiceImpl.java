@@ -1,51 +1,53 @@
 package springboot.webapp.usersmanager.Services;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import springboot.webapp.usersmanager.entities.ERole;
 import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.repositories.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @Override
-    @Transactional
-    public List<User> getUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
     @Override
-    @Transactional
-    public void saveUser(User user) {
+    public void save(User user) {
         userRepository.save(user);
     }
 
     @Override
-    @Transactional
-    public void updateUser(String name, String surname, String email, ERole role, Integer userId) {
-      userRepository.setUserInfoById(name, surname, email, role, userId);
+    public void update(User user, int userId) {
+        user.setId(userId);
+        userRepository.save(user);
     }
 
     @Override
-    @Transactional
-    public User getUser(int id) {
+    public User get(int id) {
         return userRepository.findById(id);
     }
 
     @Override
-    @Transactional
-    public void deleteUser(int id) {
-    userRepository.deleteById(id);
+    public void delete(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsById(int id) {
+        return userRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 }
