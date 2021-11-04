@@ -5,19 +5,25 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="2" author="Sergey_Gonchar">
-        <sqlFile dbms="postgresql"
-                 encoding="utf-8"
-                 endDelimiter="\nGO"
-                 relativeToChangelogFile="true"
-                 stripComments="true"
-                 path="01-create-users-table.sql"/>
+        <createTable tableName="users">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="role" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
         <rollback>
-            <sqlFile dbms="postgresql"
-                     encoding="utf-8"
-                     endDelimiter="\nGO"
-                     relativeToChangelogFile="true"
-                     stripComments="true"
-                     path="01-drop-users-table.sql"/>
+            <dropTable tableName="users"/>
         </rollback>
     </changeSet>
 
