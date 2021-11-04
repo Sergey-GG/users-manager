@@ -28,7 +28,7 @@ public class UserController {
 
     @PostMapping("/users/new")
     public ResponseEntity<String> create(@RequestBody User user) {
-        if (!userService.existsByEmail(user.getEmail())) {
+        if (userService.notExistsByEmail(user.getEmail())) {
             userService.save(user);
             return new ResponseEntity<>("User has been created." + " Created user:\n" + user.getId(), HttpStatus.OK);
         } else
@@ -39,7 +39,7 @@ public class UserController {
     @PutMapping("/user/{id}")
     public ResponseEntity<String> update(@RequestBody User user, @PathVariable int id) {
         if (userService.existsById(id)) {
-            if (!userService.existsByEmail(user.getEmail())) {
+            if (userService.notExistsByEmail(user.getEmail())) {
                 userService.update(user, id);
                 return new ResponseEntity<>("User with id:" + id + " has been successfully updated.", HttpStatus.OK);
             } else return new ResponseEntity<>("The user with email " + user.getEmail() + " is already created.", HttpStatus.BAD_REQUEST);
