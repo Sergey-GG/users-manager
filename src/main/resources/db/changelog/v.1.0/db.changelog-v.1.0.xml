@@ -5,6 +5,4 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include relativeToChangelogFile="true" file="01-changeset-create-users-table.xml"/>
-<!--    <include relativeToChangelogFile="true" file="10-changeset-create-users_role-table.xml"/>-->
-<!--    <include relativeToChangelogFile="true" file="20-changeset-create-roles-table.xml"/>-->
 </databaseChangeLog>
