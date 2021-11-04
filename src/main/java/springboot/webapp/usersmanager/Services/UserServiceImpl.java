@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.repositories.UserRepository;
 
+
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void update(User user, int userId) {
         user.setId(userId);
         userRepository.save(user);
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         userRepository.deleteById(id);
     }
