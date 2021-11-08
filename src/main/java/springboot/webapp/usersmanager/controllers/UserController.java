@@ -10,33 +10,33 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.ok(userService.getAll());
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable int id) {
         return userService.get(id);
     }
 
-    @PostMapping("/users/new")
+    @PostMapping("/new")
     public ResponseEntity<String> create(@RequestBody User user) {
         return userService.save(user);
     }
 
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody User user, @PathVariable int id) {
         return userService.update(user, id);
     }
 
-    @DeleteMapping("user/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
        return userService.delete(id);
     }
