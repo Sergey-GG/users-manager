@@ -1,4 +1,4 @@
-package springboot.webapp.usersmanager.Services;
+package springboot.webapp.usersmanager.services;
 
 
 import lombok.AllArgsConstructor;

@@ -3,7 +3,7 @@ package springboot.webapp.usersmanager.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springboot.webapp.usersmanager.Services.UserService;
+import springboot.webapp.usersmanager.services.UserService;
 import springboot.webapp.usersmanager.entities.User;
 
 import java.util.List;

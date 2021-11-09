@@ -1,4 +1,4 @@
-package springboot.webapp.usersmanager.Services;
+package springboot.webapp.usersmanager.services;
 
 import org.springframework.http.ResponseEntity;
 import springboot.webapp.usersmanager.entities.User;
@@ -10,7 +10,7 @@ public interface UserService {
 
     ResponseEntity<String> save(User user);
 
-    ResponseEntity<String> update(User user, int userId);
+    ResponseEntity<String> update(User user, int id);
 
     ResponseEntity<?> get(int id);
 
