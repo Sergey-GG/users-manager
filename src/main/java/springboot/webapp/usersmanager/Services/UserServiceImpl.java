@@ -33,16 +33,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<String> update(User user, int userId) {
-        if (userRepository.existsById(userId)) {
+    public ResponseEntity<String> update(User user, int id) {
+        if (userRepository.existsById(id)) {
             if (!userRepository.existsByEmail(user.getEmail())) {
-                user.setId(userId);
+                user.setId(id);
                 userRepository.save(user);
-                return ResponseEntity.ok("User with id:" + userId + " has been successfully updated.");
+                return ResponseEntity.ok("User with id:" + id + " has been successfully updated.");
             } else
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("The user with email " + user.getEmail() + " is already created.");
         } else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the user with id:" + userId + " because he is missing.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the user with id:" + id + " because he is missing.");
     }
 
     @Override
