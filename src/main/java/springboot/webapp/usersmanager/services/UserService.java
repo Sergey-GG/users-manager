@@ -10,7 +10,7 @@ public interface UserService {
 
     ResponseEntity<String> save(User user);
 
-    ResponseEntity<String> update(User user, int id);
+    ResponseEntity<String> update(User user);
 
     ResponseEntity<?> get(int id);
 

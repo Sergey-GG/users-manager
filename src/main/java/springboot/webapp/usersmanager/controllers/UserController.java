@@ -33,7 +33,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody User user, @PathVariable int id) {
-        return userService.update(user, id);
+        user.setId(id);
+        return userService.update(user);
     }
 
     @DeleteMapping("/{id}")

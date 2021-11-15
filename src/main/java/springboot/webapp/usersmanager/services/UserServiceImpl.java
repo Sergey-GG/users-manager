@@ -26,23 +26,18 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<String> save(User user) {
         if (!userRepository.existsByEmail(user.getEmail())) {
             userRepository.save(user);
-            return ResponseEntity.ok("User has been created." + " Created user:\n" + user.getId());
+            return ResponseEntity.ok("User with id: " + user.getId() +" has been successfully created or updated.");
         } else
             return ResponseEntity.status(HttpStatus.CONFLICT).body("The user with email " + user.getEmail() + " is already created.");
     }
 
     @Override
     @Transactional
-    public ResponseEntity<String> update(User user, int id) {
-        if (userRepository.existsById(id)) {
-            if (!userRepository.existsByEmail(user.getEmail())) {
-                user.setId(id);
-                userRepository.save(user);
-                return ResponseEntity.ok("User with id:" + id + " has been successfully updated.");
-            } else
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("The user with email " + user.getEmail() + " is already created.");
+    public ResponseEntity<String> update(User user) {
+        if (userRepository.existsById(user.getId())) {
+            return save(user);
         } else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the user with id:" + id + " because he is missing.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the user with id:" + user.getId() + " because he is missing.");
     }
 
     @Override
@@ -60,7 +55,6 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.ok("User with id: " + id + " has been deleted.");
         } else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't delete user with id:" + id + " because he is missing.");
-
     }
 
 }
