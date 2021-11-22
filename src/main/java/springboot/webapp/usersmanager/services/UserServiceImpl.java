@@ -23,10 +23,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity<?> get(int id) {
+        if (userRepository.existsById(id)) {
+            return ResponseEntity.ok(userRepository.findById(id));
+        } else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id:" + id + "is missing.");
+    }
+
+    @Override
     public ResponseEntity<String> save(User user) {
         if (!userRepository.existsByEmail(user.getEmail())) {
             userRepository.save(user);
-            return ResponseEntity.ok("User with id: " + user.getId() +" has been successfully created or updated.");
+            return ResponseEntity.status(HttpStatus.CREATED).body("User with id: " + user.getId() + " has been successfully created or updated.");
         } else
             return ResponseEntity.status(HttpStatus.CONFLICT).body("The user with email " + user.getEmail() + " is already created.");
     }
@@ -40,12 +47,6 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the user with id:" + user.getId() + " because he is missing.");
     }
 
-    @Override
-    public ResponseEntity<?> get(int id) {
-        if (userRepository.existsById(id)) {
-            return ResponseEntity.ok(userRepository.findById(id));
-        } else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id:" + id + "is missing.");
-    }
 
     @Override
     @Transactional
