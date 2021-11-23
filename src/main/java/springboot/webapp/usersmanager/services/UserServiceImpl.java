@@ -2,19 +2,17 @@ package springboot.webapp.usersmanager.services;
 
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.repositories.UserRepository;
-
-
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private UserRepository userRepository;
 
     @Override
@@ -23,39 +21,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> get(int id) {
-        if (userRepository.existsById(id)) {
-            return ResponseEntity.ok(userRepository.findById(id));
-        } else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id:" + id + "is missing.");
+    public Optional<User> get(int id) {
+        return userRepository.findById(id);
     }
 
+
     @Override
-    public ResponseEntity<String> save(User user) {
-        if (!userRepository.existsByEmail(user.getEmail())) {
-            userRepository.save(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User with id: " + user.getId() + " has been successfully created or updated.");
-        } else
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("The user with email " + user.getEmail() + " is already created.");
+    public boolean save(User user) {
+        userRepository.save(user);
+        return true;
     }
 
     @Override
     @Transactional
-    public ResponseEntity<String> update(User user) {
-        if (userRepository.existsById(user.getId())) {
-            return save(user);
-        } else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the user with id:" + user.getId() + " because he is missing.");
+    public boolean delete(int id) {
+        userRepository.deleteById(id);
+        return true;
     }
-
 
     @Override
-    @Transactional
-    public ResponseEntity<String> delete(int id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return ResponseEntity.ok("User with id: " + id + " has been deleted.");
-        } else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't delete user with id:" + id + " because he is missing.");
+    public Optional<User> getByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
-
 }

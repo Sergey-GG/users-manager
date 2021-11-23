@@ -1,12 +1,14 @@
 package springboot.webapp.usersmanager.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.webapp.usersmanager.services.UserService;
 import springboot.webapp.usersmanager.entities.User;
 
 import java.util.List;
+
 
 @RestController
 @AllArgsConstructor
@@ -17,28 +19,28 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable int id) {
-        return userService.get(id);
-    }
+    public ResponseEntity<User> get(@PathVariable int id) {
+        return  userService.get(id)
+                .map(user -> ResponseEntity.ok().body(user))
+                .orElse(ResponseEntity.notFound().build());
+}
 
-    @PostMapping("/new")
-    public ResponseEntity<String> create(@RequestBody User user) {
-        return userService.save(user);
-    }
-
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> update(@RequestBody User user, @PathVariable int id) {
-        user.setId(id);
-        return userService.update(user);
+    @PutMapping
+    public ResponseEntity<Boolean> save(@RequestBody User user) {
+        return  userService.getByEmail(user.getEmail())
+                .map(u -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(false))
+                .orElse(ResponseEntity.ok().body(userService.save(user)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
-        return userService.delete(id);
+    public ResponseEntity<Boolean> delete(@PathVariable int id){
+        return userService.get(id)
+                .map(user -> ResponseEntity.ok().body(userService.delete(id)))
+                .orElse(ResponseEntity.notFound().build());
+
     }
 }
