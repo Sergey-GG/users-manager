@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.repositories.UserRepository;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,14 +32,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public boolean delete(int id) {
-        userRepository.deleteById(id);
+    public boolean delete(User user) {
+        userRepository.delete(user);
         return true;
     }
 
-    @Override
-    public Optional<User> getByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 }

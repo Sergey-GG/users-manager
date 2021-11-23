@@ -24,23 +24,21 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable int id) {
-        return  userService.get(id)
+        return userService.get(id)
                 .map(user -> ResponseEntity.ok().body(user))
                 .orElse(ResponseEntity.notFound().build());
-}
+    }
 
     @PutMapping
     public ResponseEntity<Boolean> save(@RequestBody User user) {
-        return  userService.getByEmail(user.getEmail())
-                .map(u -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(false))
-                .orElse(ResponseEntity.ok().body(userService.save(user)));
+        return ResponseEntity.ok(userService.save(user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable int id){
+    public ResponseEntity<Boolean> delete(@PathVariable int id) {
         return userService.get(id)
-                .map(user -> ResponseEntity.ok().body(userService.delete(id)))
-                .orElse(ResponseEntity.notFound().build());
+                .map(user -> ResponseEntity.ok().body(userService.delete(user)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(false));
 
     }
 }

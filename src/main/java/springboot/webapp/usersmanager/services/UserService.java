@@ -13,7 +13,5 @@ public interface UserService {
 
     Optional<User> get(int id);
 
-    boolean delete(int id);
-
-    Optional<User> getByEmail(String email);
+    boolean delete(User user);
 }
