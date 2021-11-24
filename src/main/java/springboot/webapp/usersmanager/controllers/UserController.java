@@ -55,7 +55,7 @@ public class UserController {
 
         if (userService.save(user))
             return ResponseEntity.ok().build();
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     @DeleteMapping("/{id}")
