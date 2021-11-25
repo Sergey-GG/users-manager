@@ -39,8 +39,16 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
-        return userService.delete(id) > 0
+    public ResponseEntity<Void> deleteWithThrowingException(@PathVariable int id) {
+        return userService.deleteWithThrowingException(id)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/d/{id}")
+    public ResponseEntity<Void> deleteWithCount(@PathVariable int id) {
+
+        return userService.deleteWithCount(id) > 0
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.noContent().build();
     }
