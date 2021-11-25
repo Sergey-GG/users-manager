@@ -51,7 +51,7 @@ public class UserController {
 
 //        return userService.getEmptyIfEmailIsAlreadyExists(user.getEmail())
 //                .map((user1) -> ResponseEntity.ok(userService.save(user1)))
-//                .orElse(ResponseEntity.notFound().build());
+//                .orElse(ResponseEntity.conflict().build());
 
         if (userService.save(user))
             return ResponseEntity.ok().build();
