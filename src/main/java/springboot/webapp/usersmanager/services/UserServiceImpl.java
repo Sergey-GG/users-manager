@@ -16,8 +16,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public Optional<List<User>> getAll() {
-        return Optional.of(userRepository.findAll());
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
     @Override
@@ -26,16 +26,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean save(User user) {
+    public User put(User user){
         if (userRepository.existsByEmail(user.getEmail()))
-            return false;
+            throw new IllegalArgumentException();
         userRepository.save(user);
-        return true;
+        return user;
     }
 
     @Override
-    public boolean delete(User user) {
-        userRepository.delete(user);
-        return true;
+    public long delete(int id) {
+        userRepository.deleteById(id);
+        return userRepository.count();
     }
 }

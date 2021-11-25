@@ -19,49 +19,29 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
-        return userService.getAll()
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(userService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable int id) {
         return userService.get(id)
-                .map(user -> ResponseEntity.ok().body(user))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping
-    public ResponseEntity<Void> save(@RequestBody User user) {
-//        return ResponseEntity.ok(userService.save(user));
-
-//        return ResponseEntity.ok().build();
-
-//        if (userService.getByEmail(user.getEmail()).isPresent())
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
-//        return ResponseEntity.ok().body(userService.save(user));
-
-//        if (userService.getByEmail(user.getEmail()).isEmpty())
-//            return ResponseEntity.ok().body(userService.save(user));
-//        return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
-
-//        userService.getByEmail(user.getEmail())
-//                .map(ResponseEntity.status(HttpStatus.CONFLICT).body(false))
-//                .orElseGet(return ResponseEntity.ok().body(userService.save(user));
-
-//        return userService.getEmptyIfEmailIsAlreadyExists(user.getEmail())
-//                .map((user1) -> ResponseEntity.ok(userService.save(user1)))
-//                .orElse(ResponseEntity.conflict().build());
-
-        if (userService.save(user))
-            return ResponseEntity.ok().build();
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    public ResponseEntity<User> put(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok(userService.put(user));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable int id) {
-        return userService.get(id)
-                .map(user -> ResponseEntity.ok().body(userService.delete(user)))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(false));
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        return userService.delete(id) > 0
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.noContent().build();
     }
 }
