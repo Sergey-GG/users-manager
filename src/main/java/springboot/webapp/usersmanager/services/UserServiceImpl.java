@@ -35,16 +35,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteWithThrowingException(int id) {
-        try {
-            userRepository.deleteById(id);
-            return true;
-        } catch (EmptyResultDataAccessException e) {
-            return false;
-        }
-    }
-    
-    @Override
     public boolean delete(int id) {
         return userRepository.deleteById(id) > 0;
     }

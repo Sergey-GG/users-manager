@@ -12,7 +12,5 @@ public interface UserService {
 
     Optional<User> get(int id);
 
-    boolean deleteWithThrowingException(int id);
-
     boolean delete(int id);
 }

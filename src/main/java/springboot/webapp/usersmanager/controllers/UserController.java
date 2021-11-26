@@ -40,13 +40,6 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/d/{id}")
-    public ResponseEntity<Void> deleteWithThrowingException(@PathVariable int id) {
-        return userService.deleteWithThrowingException(id)
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.notFound().build();
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         return userService.delete(id)
