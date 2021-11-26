@@ -14,5 +14,5 @@ public interface UserService {
 
     boolean deleteWithThrowingException(int id);
 
-    long deleteWithCount(int id);
+    boolean delete(int id);
 }

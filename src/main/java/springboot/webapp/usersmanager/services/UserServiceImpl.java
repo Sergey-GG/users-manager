@@ -2,7 +2,6 @@ package springboot.webapp.usersmanager.services;
 
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import springboot.webapp.usersmanager.entities.User;
@@ -44,15 +43,9 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
-
+    
     @Override
-    public long deleteWithCount(int id) {
-        long before = userRepository.count();
-        try {
-            userRepository.deleteById(id);
-            return before - userRepository.count();
-        } catch (EmptyResultDataAccessException e) {
-            return 0;
-        }
+    public boolean delete(int id) {
+        return userRepository.deleteById(id) > 0;
     }
 }

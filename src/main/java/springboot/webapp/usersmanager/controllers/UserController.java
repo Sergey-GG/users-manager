@@ -19,7 +19,9 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
+        return userService.getAll().size() > 0
+                ? ResponseEntity.ok(userService.getAll())
+                : ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
@@ -38,18 +40,17 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/d/{id}")
     public ResponseEntity<Void> deleteWithThrowingException(@PathVariable int id) {
         return userService.deleteWithThrowingException(id)
                 ? ResponseEntity.ok().build()
-                : ResponseEntity.noContent().build();
+                : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/d/{id}")
-    public ResponseEntity<Void> deleteWithCount(@PathVariable int id) {
-
-        return userService.deleteWithCount(id) > 0
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        return userService.delete(id)
                 ? ResponseEntity.ok().build()
-                : ResponseEntity.noContent().build();
+                : ResponseEntity.notFound().build();
     }
 }
