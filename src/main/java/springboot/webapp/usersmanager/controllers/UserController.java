@@ -19,9 +19,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
-        return userService.getAll().size() > 0
-                ? ResponseEntity.ok(userService.getAll())
-                : ResponseEntity.noContent().build();
+        return ResponseEntity.ok(userService.getAll());
+
     }
 
     @GetMapping("/{id}")

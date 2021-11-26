@@ -27,8 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User put(User user) {
-        if (userRepository.existsByEmail(user.getEmail()))
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException();
+        }
         userRepository.save(user);
         return user;
     }
