@@ -8,5 +8,7 @@ import springboot.webapp.usersmanager.entities.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByEmail(String email);
 
-    Integer deleteById(int id);
+    Integer deleteUserById(int id);
+
+    User save(User user);
 }

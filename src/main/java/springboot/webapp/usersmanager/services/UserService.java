@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserService {
     List<User> getAll();
 
-    User put(User user);
+    boolean put(User user);
 
     Optional<User> get(int id);
 

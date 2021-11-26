@@ -1,8 +1,8 @@
 package springboot.webapp.usersmanager.services;
 
-
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.repositories.UserRepository;
 
@@ -26,16 +26,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User put(User user) {
+    public boolean put(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException();
         }
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user) != null;
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
-        return userRepository.deleteById(id) > 0;
+        return userRepository.deleteUserById(id)>0;
     }
 }
+

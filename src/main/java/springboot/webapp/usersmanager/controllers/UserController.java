@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<User> put(@RequestBody User user) {
+    public ResponseEntity<Boolean> put(@RequestBody User user) {
         try {
             return ResponseEntity.ok(userService.put(user));
         } catch (IllegalArgumentException e) {
