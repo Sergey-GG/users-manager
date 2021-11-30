@@ -1,21 +1,14 @@
 package springboot.webapp.usersmanager.services_tests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import springboot.webapp.usersmanager.controllers.UserController;
@@ -23,16 +16,11 @@ import springboot.webapp.usersmanager.entities.Role;
 import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.repositories.UserRepository;
 import springboot.webapp.usersmanager.services.UserService;
-import springboot.webapp.usersmanager.services.UserServiceImpl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -96,12 +84,12 @@ public class UserServiceImplTests {
     @Test
     public void put_success() throws Exception {
 
-        when(userService.put(put())).thenReturn(true);
+        when(userService.put(putUser())).thenReturn(true);
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(put()));
+                .content(this.mapper.writeValueAsString(putUser()));
 
         mockMvc.perform(mockHttpServletRequestBuilder)
                 .andExpect(status().isOk())
@@ -144,7 +132,7 @@ public class UserServiceImplTests {
                 .andExpect(status().isNotFound());
     }
 
-    public User put() {
+    public User putUser() {
         return User.builder()
                 .id(4)
                 .name("Vladislav")
