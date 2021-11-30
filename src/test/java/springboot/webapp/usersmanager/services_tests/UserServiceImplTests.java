@@ -1,19 +1,29 @@
 package springboot.webapp.usersmanager.services_tests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import springboot.webapp.usersmanager.controllers.UserController;
 import springboot.webapp.usersmanager.entities.Role;
 import springboot.webapp.usersmanager.entities.User;
+import springboot.webapp.usersmanager.repositories.UserRepository;
 import springboot.webapp.usersmanager.services.UserService;
+import springboot.webapp.usersmanager.services.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +31,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,6 +44,9 @@ public class UserServiceImplTests {
 
     @Autowired
     ObjectMapper mapper;
+
+    @MockBean
+    UserRepository userRepository;
 
     @MockBean
     UserService userService;
@@ -45,7 +61,7 @@ public class UserServiceImplTests {
     public void getAll() throws Exception {
         List<User> users = new ArrayList<>(Arrays.asList(USER_1, USER_2, USER_3));
 
-        Mockito.when(userService.getAll()).thenReturn(users);
+        when(userService.getAll()).thenReturn(users);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/users")
@@ -56,7 +72,7 @@ public class UserServiceImplTests {
 
     @Test
     public void getById_success() throws Exception {
-        Mockito.when(userService.get(USER_1.getId())).thenReturn(Optional.of(USER_1));
+        when(userService.get(USER_1.getId())).thenReturn(Optional.of(USER_1));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/users/1")
@@ -69,7 +85,7 @@ public class UserServiceImplTests {
 
     @Test
     public void getById_notFound() throws Exception {
-        Mockito.when(userService.get(USER_1.getId())).thenReturn(Optional.of(USER_1));
+        when(userService.get(USER_1.getId())).thenReturn(Optional.of(USER_1));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/users/2")
@@ -80,7 +96,7 @@ public class UserServiceImplTests {
     @Test
     public void put_success() throws Exception {
 
-        Mockito.when(userService.put(put())).thenReturn(true);
+        when(userService.put(put())).thenReturn(true);
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -93,16 +109,24 @@ public class UserServiceImplTests {
                 .andExpect(jsonPath("$", is(true)));
     }
 
-    @org.junit.Test(expected = IllegalArgumentException.class)
-    public void put_existedEmail() {
-        userService.put(put());
-        userService.put(put());
+    @Test
+    public void put_existedEmail() throws Exception {
+        when(userService.put(any())).thenThrow(IllegalArgumentException.class);
 
+        String content = "{\"id\" : \"4\",\"name\" : \"Vladislav\",\"surname\" : \"Petrov\",\"role\" : \"ROLE_USER\"}";
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
     }
 
     @Test
     public void delete_success() throws Exception {
-        Mockito.when(userService.delete(USER_2.getId())).thenReturn(true);
+        when(userService.delete(USER_2.getId())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/2")
@@ -112,7 +136,7 @@ public class UserServiceImplTests {
 
     @Test
     public void deleteById_notFound() throws Exception {
-        Mockito.when(userService.delete(6)).thenReturn(true);
+        when(userService.delete(6)).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/7")
@@ -120,7 +144,7 @@ public class UserServiceImplTests {
                 .andExpect(status().isNotFound());
     }
 
-    public User put(){
+    public User put() {
         return User.builder()
                 .id(4)
                 .name("Vladislav")
