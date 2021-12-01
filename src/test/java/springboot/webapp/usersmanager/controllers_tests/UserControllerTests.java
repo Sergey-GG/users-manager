@@ -73,7 +73,7 @@ public class UserControllerTests {
 
     @Test
     public void getByIdWhenNonExistentUserStatusNotFound() throws Exception {
-        when(userService.get(user1.getId())).thenReturn(Optional.of(user1));
+        when(userService.get(1)).thenReturn(Optional.empty());
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                 .get("/users/2")
