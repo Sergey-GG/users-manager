@@ -39,15 +39,15 @@ public class UserServiceImplTests {
     @MockBean
     UserService userService;
 
-    User USER_1 = new User(1, "Sergey", "Gonchar", "sergey@gmail.com", Role.ROLE_ADMIN);
+    User user1 = new User(1, "Sergey", "Gonchar", "sergey@gmail.com", Role.ROLE_ADMIN);
 
-    User USER_2 = new User(2, "Sergey", "Danilov", "danilov@gmail.com", Role.ROLE_USER);
+    User user2 = new User(2, "Sergey", "Danilov", "danilov@gmail.com", Role.ROLE_USER);
 
-    User USER_3 = new User(3, "Ivan", "Petrov", "petrov@gmail.com", Role.ROLE_USER);
+    User user3 = new User(3, "Ivan", "Petrov", "petrov@gmail.com", Role.ROLE_USER);
 
     @Test
-    public void getAll() throws Exception {
-        List<User> users = new ArrayList<>(Arrays.asList(USER_1, USER_2, USER_3));
+    public void getAll_ok() throws Exception {
+        List<User> users = new ArrayList<>(Arrays.asList(user1, user2, user3));
 
         when(userService.getAll()).thenReturn(users);
 
@@ -59,8 +59,8 @@ public class UserServiceImplTests {
     }
 
     @Test
-    public void getById_success() throws Exception {
-        when(userService.get(USER_1.getId())).thenReturn(Optional.of(USER_1));
+    public void getById_ok() throws Exception {
+        when(userService.get(user1.getId())).thenReturn(Optional.of(user1));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/users/1")
@@ -73,7 +73,7 @@ public class UserServiceImplTests {
 
     @Test
     public void getById_notFound() throws Exception {
-        when(userService.get(USER_1.getId())).thenReturn(Optional.of(USER_1));
+        when(userService.get(user1.getId())).thenReturn(Optional.of(user1));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/users/2")
@@ -82,7 +82,7 @@ public class UserServiceImplTests {
     }
 
     @Test
-    public void put_success() throws Exception {
+    public void put_ok() throws Exception {
 
         when(userService.put(putUser())).thenReturn(true);
 
@@ -98,12 +98,12 @@ public class UserServiceImplTests {
     }
 
     @Test
-    public void put_existedEmail() throws Exception {
+    public void put_existedEmail_conflict() throws Exception {
         when(userService.put(any())).thenThrow(IllegalArgumentException.class);
 
         String content = "{\"id\" : \"4\",\"name\" : \"Vladislav\",\"surname\" : \"Petrov\",\"role\" : \"ROLE_USER\"}";
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users")
                 .accept(MediaType.APPLICATION_JSON)
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON);
@@ -113,8 +113,8 @@ public class UserServiceImplTests {
     }
 
     @Test
-    public void delete_success() throws Exception {
-        when(userService.delete(USER_2.getId())).thenReturn(true);
+    public void delete_ok() throws Exception {
+        when(userService.delete(user2.getId())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/2")
