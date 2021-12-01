@@ -35,7 +35,7 @@ public class UserController {
         try {
             return ResponseEntity.ok(userService.put(user));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
         }
     }
 

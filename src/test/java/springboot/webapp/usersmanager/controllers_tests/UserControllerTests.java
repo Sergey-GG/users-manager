@@ -1,6 +1,7 @@
 package springboot.webapp.usersmanager.controllers_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +11,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import springboot.webapp.usersmanager.controllers.UserController;
+import springboot.webapp.usersmanager.entities.Role;
 import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.services.UserService;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
@@ -30,116 +30,166 @@ import static org.mockito.Mockito.when;
 public class UserControllerTests {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @MockBean
-    UserService userService;
+    private UserService userService;
 
-    private final User user1 = getUser();
-
-    private final User user2 = getUser();
-
-    private final User user3 = getUser();
 
     @Test
-    public void getAllWhenStatusOk() throws Exception {
-        List<User> users = List.of(user1, user2, user3);
+    @SneakyThrows
+    public void getAllWhenListIsNotEmptyStatusOk() {
+        List<User> users = List.of(getUser(), getUser(), getUser());
 
         when(userService.getAll()).thenReturn(users);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .get("/users")
-                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/users")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
 
-
-        MockHttpServletResponse response = result.getResponse();
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.OK.value())));
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(not(emptyString())));
+        MatcherAssert.assertThat(response.getContentAsString(), is(not("[]")));
     }
 
     @Test
-    public void getByIdWhenExistedUserStatusOk() throws Exception {
-        when(userService.get(user1.getId())).thenReturn(Optional.of(user1));
+    @SneakyThrows
+    public void getAllWhenListIsEmptyStatusOk() {
+        List<User> users = List.of();
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .get("/users/" + user1.getId())
-                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        when(userService.getAll()).thenReturn(users);
 
-        MockHttpServletResponse response = result.getResponse();
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.OK.value())));
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/users")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is("[]"));
+    }
+
+
+    @Test
+    @SneakyThrows
+    public void getByIdWhenExistedUserStatusOk() {
+        final User user = getUser();
+
+        when(userService.get(user.getId())).thenReturn(Optional.of(user));
+
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/users/" + user.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(not(emptyString())));
     }
 
     @Test
-    public void getByIdWhenNonExistentUserStatusNotFound() throws Exception {
+    @SneakyThrows
+    public void getByIdWhenNonExistentUserStatusNotFound() {
         when(userService.get(1)).thenReturn(Optional.empty());
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .get("/users/2")
-                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/users/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
 
-        MockHttpServletResponse response = result.getResponse();
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.NOT_FOUND.value())));
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.NOT_FOUND.value()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(emptyString()));
     }
 
     @Test
-    public void putWhenNonExistentUserStatusOk() throws Exception {
+    @SneakyThrows
+    public void putWhenNonExistentUserStatusOk() {
+        final User user = getUser();
 
-        when(userService.put(getUser())).thenReturn(true);
+        when(userService.put(user)).thenReturn(true);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .put("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(getUser()))).andReturn();
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .put("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(this.mapper.writeValueAsString(user)))
+                .andReturn()
+                .getResponse();
 
-        MockHttpServletResponse response = result.getResponse();
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.OK.value())));
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is("true"));
     }
 
     @Test
-    public void putWhenUserWithExistedEmailStatusConflict() throws Exception {
+    @SneakyThrows
+    public void putWhenUserWithExistedEmailStatusConflict() {
         when(userService.put(any())).thenThrow(IllegalArgumentException.class);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .put("/users")
-                .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(getUser()))
-                .contentType(MediaType.APPLICATION_JSON)).andReturn();
-
-        MockHttpServletResponse response = result.getResponse();
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.CONFLICT.value())));
-    }
-
-    @Test
-    public void deleteWhenExistedUserStatusOk() throws Exception {
-        when(userService.delete(user2.getId())).thenReturn(true);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/users/" + user2.getId())
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .put("/users")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(this.mapper.writeValueAsString(getUser()))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+                .andReturn()
+                .getResponse();
 
-        MockHttpServletResponse response = result.getResponse();
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.OK.value())));
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.CONFLICT.value()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is("false"));
     }
 
     @Test
-    public void deleteByIdWhenNonExistentUserStatusNotFound() throws Exception {
-        when(userService.delete(6)).thenReturn(true);
+    @SneakyThrows
+    public void deleteWhenExistedUserStatusOk() {
+        final User user = getUser();
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+        when(userService.delete(user.getId())).thenReturn(true);
+
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/users/" + user.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+
+        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.OK.value())));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(emptyString()));
+    }
+
+    @Test
+    @SneakyThrows
+    public void deleteByIdWhenNonExistentUserStatusNotFound() {
+        when(userService.delete(7)).thenReturn(false);
+
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/7")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+                .andReturn()
+                .getResponse();
 
-        MockHttpServletResponse response = result.getResponse();
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.NOT_FOUND.value())));
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.NOT_FOUND.value()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(notNullValue()));
+        MatcherAssert.assertThat(response.getContentAsString(), is(emptyString()));
     }
 
     public User getUser() {
-        PodamFactory factory = new PodamFactoryImpl();
-        return factory.manufacturePojo(User.class);
+        return new User(
+                new Random().nextInt(100),
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString(),
+                Role.values()[new Random().nextInt(Role.values().length)]
+        );
     }
 }
