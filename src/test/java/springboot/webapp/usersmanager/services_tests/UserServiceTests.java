@@ -84,12 +84,12 @@ public class UserServiceTests {
     @Test
     public void put_newUser_ok() throws Exception {
 
-        when(userService.put(putUser())).thenReturn(true);
+        when(userService.put(getUser())).thenReturn(true);
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(putUser()));
+                .content(this.mapper.writeValueAsString(getUser()));
 
         mockMvc.perform(mockHttpServletRequestBuilder)
                 .andExpect(status().isOk())
@@ -132,7 +132,7 @@ public class UserServiceTests {
                 .andExpect(status().isNotFound());
     }
 
-    public User putUser() {
+    public User getUser() {
         return User.builder()
                 .id(4)
                 .name("Vladislav")
