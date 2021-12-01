@@ -38,11 +38,11 @@ public class UserControllerTests {
     @MockBean
     UserService userService;
 
-    private User user1 = getUser();
+    private final User user1 = getUser();
 
-    private User user2 = getUser();
+    private final User user2 = getUser();
 
-    private User user3 = getUser();
+    private final User user3 = getUser();
 
     @Test
     public void getAllWhenStatusOk() throws Exception {
@@ -57,8 +57,6 @@ public class UserControllerTests {
 
         MockHttpServletResponse response = result.getResponse();
         MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.OK.value())));
-        System.out.println(users);
-
     }
 
     @Test
