@@ -103,7 +103,6 @@ public class UserControllerTests {
 
 
         MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
-        MatcherAssert.assertThat(response.getContentAsString(), is("true"));
     }
 
     @Test
@@ -120,7 +119,6 @@ public class UserControllerTests {
                 .getResponse();
 
         MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.CONFLICT.value()));
-        MatcherAssert.assertThat(response.getContentAsString(), is("false"));
     }
 
     @Test
