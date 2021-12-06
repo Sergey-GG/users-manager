@@ -79,7 +79,7 @@ public class UserServiceTests {
 
         when(userRepository.deleteUserById(user.getId())).thenReturn(1);
 
-        MatcherAssert.assertThat( userService.delete(user.getId()), is(true));
+        MatcherAssert.assertThat(userService.delete(user.getId()), is(true));
 
     }
 
