@@ -59,9 +59,7 @@ public class UserServiceTests {
 
         when(userRepository.save(user)).thenReturn(user);
 
-        boolean responseBool = userService.put(user);
-
-        MatcherAssert.assertThat(responseBool, is(true));
+        MatcherAssert.assertThat(userService.put(user), is(true));
     }
 
 
@@ -71,9 +69,7 @@ public class UserServiceTests {
 
         when(userRepository.save(user)).thenReturn(null);
 
-        boolean responseBool = userService.put(user);
-
-        MatcherAssert.assertThat(responseBool, is(false));
+        MatcherAssert.assertThat(userService.put(user), is(false));
     }
 
 
@@ -83,9 +79,7 @@ public class UserServiceTests {
 
         when(userRepository.deleteUserById(user.getId())).thenReturn(1);
 
-        boolean responseBool = userService.delete(user.getId());
-
-        MatcherAssert.assertThat(responseBool, is(true));
+        MatcherAssert.assertThat( userService.delete(user.getId()), is(true));
 
     }
 
@@ -96,10 +90,6 @@ public class UserServiceTests {
 
         when(userRepository.deleteUserById(user.getId())).thenReturn(0);
 
-        boolean responseBool = userService.delete(user.getId());
-
-        MatcherAssert.assertThat(responseBool, is(false));
+        MatcherAssert.assertThat(userService.delete(user.getId()), is(false));
     }
-
-
 }
