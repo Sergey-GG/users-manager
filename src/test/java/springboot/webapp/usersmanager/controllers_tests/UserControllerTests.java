@@ -114,7 +114,7 @@ public class UserControllerTests {
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
                         .put("/users")
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(this.mapper.writeValueAsString(UserGenerator.getUser()))
+                        .content(mapper.writeValueAsString(UserGenerator.getUser()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
                 .getResponse();
