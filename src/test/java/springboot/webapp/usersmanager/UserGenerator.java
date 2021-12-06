@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class UserGenerator {
-   static public User getUser() {
+   public static User getUser() {
         return new User(
                 new Random().nextInt(100),
                 UUID.randomUUID().toString(),

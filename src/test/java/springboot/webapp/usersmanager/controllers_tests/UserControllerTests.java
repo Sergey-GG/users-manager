@@ -83,8 +83,7 @@ public class UserControllerTests {
                 .getResponse();
 
         MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.NOT_FOUND.value()));
-        MatcherAssert.assertThat(response.getContentAsString(), is(emptyString()));
-    }
+            }
 
     @Test
     @SneakyThrows
@@ -103,7 +102,7 @@ public class UserControllerTests {
 
 
         MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
-    }
+            }
 
     @Test
     @SneakyThrows
@@ -113,7 +112,7 @@ public class UserControllerTests {
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
                         .put("/users")
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(UserGenerator.getUser()))
+                        .content(this.mapper.writeValueAsString(UserGenerator.getUser()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
                 .getResponse();
@@ -135,7 +134,7 @@ public class UserControllerTests {
                 .getResponse();
 
 
-        MatcherAssert.assertThat(response.getStatus(), is(equalTo(HttpStatus.OK.value())));
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
     }
 
     @Test
@@ -149,9 +148,6 @@ public class UserControllerTests {
                 .andReturn()
                 .getResponse();
 
-
-
         MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.NOT_FOUND.value()));
     }
-
 }

@@ -12,8 +12,7 @@ import springboot.webapp.usersmanager.services.UserServiceImpl;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 
 public class UserServiceTests {
@@ -23,15 +22,20 @@ public class UserServiceTests {
 
     @Test
     public void getAll() {
-        List<User> users = List.of(UserGenerator.getUser(), UserGenerator.getUser(), UserGenerator.getUser());
+        User user1 = UserGenerator.getUser();
+
+        User user2 = UserGenerator.getUser();
+
+        User user3 = UserGenerator.getUser();
+
+        List<User> users = List.of(user1, user2, user3);
 
         when(userRepository.findAll()).thenReturn(users);
 
         List<User> responseList = userService.getAll();
 
         MatcherAssert.assertThat(users.size(), is(3));
-        MatcherAssert.assertThat(responseList, is(users));
-        for (User user : responseList) MatcherAssert.assertThat(user, instanceOf(User.class));
+        MatcherAssert.assertThat(responseList, containsInAnyOrder(user1, user2, user3));
     }
 
 
@@ -43,6 +47,7 @@ public class UserServiceTests {
 
         Optional<User> responseUser = userService.get(user.get().getId());
 
+        MatcherAssert.assertThat(responseUser.isPresent(), is(user.isPresent()));
         MatcherAssert.assertThat(responseUser.get(), is(user.get()));
 
     }
