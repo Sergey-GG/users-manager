@@ -31,11 +31,11 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Boolean> put(@RequestBody User user) {
+    public ResponseEntity<Void> put(@RequestBody User user) {
         try {
             return ResponseEntity.ok(userService.put(user));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
