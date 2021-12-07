@@ -41,14 +41,16 @@ public class UserServiceTests {
 
     @Test
     public void getById() {
-        final Optional<User> user = Optional.of(UserGenerator.getUser());
+        final User user = UserGenerator.getUser();
 
-        when(userRepository.findById(user.get().getId())).thenReturn(user);
+        final Optional<User> optionalUser = Optional.of(user);
 
-        Optional<User> responseUser = userService.get(user.get().getId());
+        when(userRepository.findById(user.getId())).thenReturn(optionalUser);
+
+        Optional<User> responseUser = userService.get(optionalUser.get().getId());
 
         MatcherAssert.assertThat(responseUser.isPresent(), is(true));
-        MatcherAssert.assertThat(responseUser.get(), is(user.get()));
+        MatcherAssert.assertThat(responseUser.get(), is(optionalUser.get()));
 
     }
 
