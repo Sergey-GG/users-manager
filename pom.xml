@@ -61,7 +61,12 @@
 			<version>3.13.4</version>
 		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -95,7 +100,7 @@
 									<driver>org.postgresql.Driver</driver>
 									<url>jdbc:postgresql://localhost:5432/users_manager_db</url>
 									<user>postgres</user>
-									<password>postgres</password>
+									<password>eshop</password>
 								</jdbc>
 
 								<generator>
@@ -109,8 +114,8 @@
 										<records>true</records>
 									</generate>
 									<target>
-										<packageName>springboot.webapp.usersmanager</packageName>
-										<directory>target/generated-sources/jooq</directory>
+										<packageName>springboot.webapp.usersmanager.generated-sources</packageName>
+										<directory>src/main/java</directory>
 									</target>
 								</generator>
 							</configuration>

@@ -18,7 +18,6 @@ import static org.mockito.Mockito.when;
 
 public class UserServiceTests {
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    private final UserRepositoryImpl userRepositoryImpl = Mockito.mock(UserRepositoryImpl.class);
     private final UserService userService = new UserServiceImpl(userRepository);
 
     @Test
@@ -52,6 +51,7 @@ public class UserServiceTests {
 
         MatcherAssert.assertThat(responseUser.isPresent(), is(true));
         MatcherAssert.assertThat(responseUser.get(), is(optionalUser.get()));
+        System.out.println(user);
 
     }
 
