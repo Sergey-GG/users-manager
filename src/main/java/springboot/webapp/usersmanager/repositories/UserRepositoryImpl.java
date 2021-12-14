@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
-    private DSLContext context;
+    private final DSLContext context;
 
     @Override
     public boolean existsByEmail(String email) {
