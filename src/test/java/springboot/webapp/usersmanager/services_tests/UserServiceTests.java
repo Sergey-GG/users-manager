@@ -51,6 +51,7 @@ public class UserServiceTests {
 
         MatcherAssert.assertThat(responseUser.isPresent(), is(true));
         MatcherAssert.assertThat(responseUser.get(), is(optionalUser.get()));
+        
     }
 
 
@@ -92,6 +93,5 @@ public class UserServiceTests {
         when(userRepository.deleteUserById(user.getId())).thenReturn(0);
 
         MatcherAssert.assertThat(userService.delete(user.getId()), is(false));
-        
     }
 }
