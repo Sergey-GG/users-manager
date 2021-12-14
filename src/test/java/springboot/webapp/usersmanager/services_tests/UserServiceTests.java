@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 
 public class UserServiceTests {
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
+    
     private final UserService userService = new UserServiceImpl(userRepository);
 
     @Test
@@ -91,5 +92,6 @@ public class UserServiceTests {
         when(userRepository.deleteUserById(user.getId())).thenReturn(0);
 
         MatcherAssert.assertThat(userService.delete(user.getId()), is(false));
+        
     }
 }
