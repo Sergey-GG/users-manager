@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface UserRepository {
     boolean existsByEmail(String email);
 
+    boolean existsById(int id);
+
     Integer deleteUserById(int id);
 
     User save(User user);

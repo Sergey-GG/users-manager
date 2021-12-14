@@ -1,6 +1,8 @@
 package springboot.webapp.usersmanager.entities;
 
 import lombok.*;
+import org.jooq.TableField;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.UsersRecord;
 
 import javax.persistence.*;
 
