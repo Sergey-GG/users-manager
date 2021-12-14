@@ -51,8 +51,6 @@ public class UserServiceTests {
 
         MatcherAssert.assertThat(responseUser.isPresent(), is(true));
         MatcherAssert.assertThat(responseUser.get(), is(optionalUser.get()));
-        System.out.println(user);
-
     }
 
 
