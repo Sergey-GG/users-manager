@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import springboot.webapp.usersmanager.UserGenerator;
 import springboot.webapp.usersmanager.entities.User;
-import springboot.webapp.usersmanager.repositories.UserRepositoryImpl;
 import springboot.webapp.usersmanager.repositories.UserRepository;
 import springboot.webapp.usersmanager.services.UserService;
 import springboot.webapp.usersmanager.services.UserServiceImpl;
