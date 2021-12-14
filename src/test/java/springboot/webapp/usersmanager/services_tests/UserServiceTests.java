@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import springboot.webapp.usersmanager.UserGenerator;
 import springboot.webapp.usersmanager.entities.User;
-import springboot.webapp.usersmanager.repositories.UserRepositoryImpl;
 import springboot.webapp.usersmanager.repositories.UserRepository;
 import springboot.webapp.usersmanager.services.UserService;
 import springboot.webapp.usersmanager.services.UserServiceImpl;
@@ -60,7 +59,7 @@ public class UserServiceTests {
     public void putWhenNonExistentUserResultIsTrue() {
         final User user = UserGenerator.getUser();
 
-        when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.put(user)).thenReturn(user);
 
         MatcherAssert.assertThat(userService.put(user), is(true));
     }
@@ -70,7 +69,7 @@ public class UserServiceTests {
     public void putWhenUserWithExistedEmailResultIsFalse() {
         final User user = UserGenerator.getUser();
 
-        when(userRepository.save(user)).thenReturn(null);
+        when(userRepository.put(user)).thenReturn(null);
 
         MatcherAssert.assertThat(userService.put(user), is(false));
     }

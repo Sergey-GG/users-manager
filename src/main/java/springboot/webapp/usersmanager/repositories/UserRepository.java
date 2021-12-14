@@ -14,7 +14,7 @@ public interface UserRepository {
 
     Integer deleteUserById(int id);
 
-    User save(User user);
+    User put(User user);
 
     List<User> findAll();
 
