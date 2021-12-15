@@ -53,11 +53,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-codegen</artifactId>
-            <version>3.15.5</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -91,7 +86,7 @@
                 <configuration>
                     <skip>false</skip>
                     <jdbc>
-                        <driver> ${db.driver}</driver>
+                        <driver>${db.driver}</driver>
                         <url>${db.url}</url>
                         <user>${db.username}</user>
                         <password>${db.password}</password>
