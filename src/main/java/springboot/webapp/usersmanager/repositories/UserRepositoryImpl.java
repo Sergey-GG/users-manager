@@ -13,21 +13,21 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
-    private final DSLContext context;
+    private final DSLContext dslContext;
 
     @Override
     public boolean existsByEmail(String email) {
-        return context.fetchExists(Users.USERS, Users.USERS.EMAIL.eq(email));
+        return dslContext.fetchExists(Users.USERS, Users.USERS.EMAIL.eq(email));
     }
 
     @Override
     public boolean existsById(int id) {
-        return context.fetchExists(Users.USERS, Users.USERS.ID.eq(id));
+        return dslContext.fetchExists(Users.USERS, Users.USERS.ID.eq(id));
     }
 
     @Override
     public Integer deleteUserById(int id) {
-        return context.deleteFrom(Users.USERS)
+        return dslContext.deleteFrom(Users.USERS)
                 .where(Users.USERS.ID.eq(id))
                 .execute();
     }
@@ -35,7 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User put(User user) {
         if (existsById(user.getId())) {
-            return context.update(Users.USERS)
+            return dslContext.update(Users.USERS)
                     .set(Users.USERS.NAME, user.getName())
                     .set(Users.USERS.SURNAME, user.getSurname())
                     .set(Users.USERS.EMAIL, user.getEmail())
@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
                     .fetchOne()
                     .into(User.class);
         }
-        return context.insertInto(Users.USERS)
+        return dslContext.insertInto(Users.USERS)
                 .values(
                         user.getId(),
                         user.getName(),
@@ -60,7 +60,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return context.select()
+        return dslContext.select()
                 .from(Users.USERS)
                 .fetchInto(User.class);
 
@@ -68,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findById(int id) {
-        return context.selectFrom(Users.USERS)
+        return dslContext.selectFrom(Users.USERS)
                 .where(Users.USERS.ID.eq(id))
                 .fetchOptionalInto(User.class);
     }
