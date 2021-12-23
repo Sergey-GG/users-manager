@@ -36,3 +36,5 @@ mvnw
 .mvn
 .md
 .cmd
+
+.jpb/persistence-units.xml

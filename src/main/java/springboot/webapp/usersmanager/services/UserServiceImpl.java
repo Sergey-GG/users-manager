@@ -30,13 +30,13 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException();
         }
-        return userRepository.save(user) != null;
+        return userRepository.put(user) != null;
     }
 
     @Override
     @Transactional
     public boolean delete(int id) {
-        return userRepository.deleteUserById(id)>0;
+        return userRepository.deleteUserById(id) > 0;
     }
 }
 
