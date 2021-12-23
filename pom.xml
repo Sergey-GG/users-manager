@@ -15,10 +15,10 @@
     <description>Spring boot web-application</description>
     <properties>
         <java.version>11</java.version>
-        <db.driver>org.postgresql.Driver</db.driver>
-        <db.url>jdbc:postgresql://localhost:5432/users_manager_db</db.url>
-        <db.username>postgres</db.username>
-        <db.password>postgres</db.password>
+        <db.driver>${env.DB_DRIVER}</db.driver>
+        <db.url>${env.DB_URL}</db.url>
+        <db.username>${env.DB_USERNAME}</db.username>
+        <db.password>${env.DB_PASSWORD}</db.password>
     </properties>
     <dependencies>
         <dependency>
