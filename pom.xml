@@ -84,7 +84,7 @@
                 </dependencies>
 
                 <configuration>
-                    <skip>false</skip>
+                    <skip>true</skip>
                     <jdbc>
                         <driver>${db.driver}</driver>
                         <url>${db.url}</url>
