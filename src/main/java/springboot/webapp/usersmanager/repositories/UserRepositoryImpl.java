@@ -46,13 +46,11 @@ public class UserRepositoryImpl implements UserRepository {
                     .into(User.class);
         }
         return dslContext.insertInto(Users.USERS)
-                .values(
-                        user.getId(),
-                        user.getName(),
-                        user.getSurname(),
-                        user.getEmail(),
-                        user.getRole()
-                )
+                .set(Users.USERS.ID, user.getId())
+                .set(Users.USERS.NAME, user.getName())
+                .set(Users.USERS.SURNAME, user.getSurname())
+                .set(Users.USERS.EMAIL, user.getEmail())
+                .set(Users.USERS.ROLE, user.getRole().toString())
                 .returning()
                 .fetchOne()
                 .into(User.class);
