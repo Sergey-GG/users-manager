@@ -8,12 +8,34 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.jooq.Catalog;
+import org.jooq.Configuration;
+import org.jooq.Field;
+import org.jooq.Result;
 import org.jooq.Table;
+import org.jooq.UDT;
 import org.jooq.impl.SchemaImpl;
 
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.Databasechangelog;
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.Databasechangeloglock;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.GeographyColumns;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.GeometryColumns;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.Polygon;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.SpatialRefSys;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.StDump;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumppoints;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumprings;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.StHexagongrid;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.StSquaregrid;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.StSubdivide;
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.Users;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.StDumpRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.StDumppointsRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.StDumpringsRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.StHexagongridRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.StSquaregridRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.StSubdivideRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.udt.GeometryDump;
+import springboot.webapp.usersmanager.generated_sources.jooq.udt.ValidDetail;
 
 
 /**
@@ -40,6 +62,302 @@ public class Public extends SchemaImpl {
     public final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
 
     /**
+     * The table <code>public.geography_columns</code>.
+     */
+    public final GeographyColumns GEOGRAPHY_COLUMNS = GeographyColumns.GEOGRAPHY_COLUMNS;
+
+    /**
+     * The table <code>public.geometry_columns</code>.
+     */
+    public final GeometryColumns GEOMETRY_COLUMNS = GeometryColumns.GEOMETRY_COLUMNS;
+
+    /**
+     * The table <code>public.polygon</code>.
+     */
+    public final Polygon POLYGON = Polygon.POLYGON;
+
+    /**
+     * The table <code>public.spatial_ref_sys</code>.
+     */
+    public final SpatialRefSys SPATIAL_REF_SYS = SpatialRefSys.SPATIAL_REF_SYS;
+
+    /**
+     * The table <code>public.st_dump</code>.
+     */
+    public final StDump ST_DUMP = StDump.ST_DUMP;
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static Result<StDumpRecord> ST_DUMP(
+          Configuration configuration
+        , Object __1
+    ) {
+        return configuration.dsl().selectFrom(springboot.webapp.usersmanager.generated_sources.jooq.tables.StDump.ST_DUMP.call(
+              __1
+        )).fetch();
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StDump ST_DUMP(
+          Object __1
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StDump.ST_DUMP.call(
+              __1
+        );
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StDump ST_DUMP(
+          Field<Object> __1
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StDump.ST_DUMP.call(
+              __1
+        );
+    }
+
+    /**
+     * The table <code>public.st_dumppoints</code>.
+     */
+    public final StDumppoints ST_DUMPPOINTS = StDumppoints.ST_DUMPPOINTS;
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static Result<StDumppointsRecord> ST_DUMPPOINTS(
+          Configuration configuration
+        , Object __1
+    ) {
+        return configuration.dsl().selectFrom(springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumppoints.ST_DUMPPOINTS.call(
+              __1
+        )).fetch();
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StDumppoints ST_DUMPPOINTS(
+          Object __1
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumppoints.ST_DUMPPOINTS.call(
+              __1
+        );
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StDumppoints ST_DUMPPOINTS(
+          Field<Object> __1
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumppoints.ST_DUMPPOINTS.call(
+              __1
+        );
+    }
+
+    /**
+     * The table <code>public.st_dumprings</code>.
+     */
+    public final StDumprings ST_DUMPRINGS = StDumprings.ST_DUMPRINGS;
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static Result<StDumpringsRecord> ST_DUMPRINGS(
+          Configuration configuration
+        , Object __1
+    ) {
+        return configuration.dsl().selectFrom(springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumprings.ST_DUMPRINGS.call(
+              __1
+        )).fetch();
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StDumprings ST_DUMPRINGS(
+          Object __1
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumprings.ST_DUMPRINGS.call(
+              __1
+        );
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StDumprings ST_DUMPRINGS(
+          Field<Object> __1
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StDumprings.ST_DUMPRINGS.call(
+              __1
+        );
+    }
+
+    /**
+     * The table <code>public.st_hexagongrid</code>.
+     */
+    public final StHexagongrid ST_HEXAGONGRID = StHexagongrid.ST_HEXAGONGRID;
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static Result<StHexagongridRecord> ST_HEXAGONGRID(
+          Configuration configuration
+        , Double size
+        , Object bounds
+    ) {
+        return configuration.dsl().selectFrom(springboot.webapp.usersmanager.generated_sources.jooq.tables.StHexagongrid.ST_HEXAGONGRID.call(
+              size
+            , bounds
+        )).fetch();
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StHexagongrid ST_HEXAGONGRID(
+          Double size
+        , Object bounds
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StHexagongrid.ST_HEXAGONGRID.call(
+              size
+            , bounds
+        );
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StHexagongrid ST_HEXAGONGRID(
+          Field<Double> size
+        , Field<Object> bounds
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StHexagongrid.ST_HEXAGONGRID.call(
+              size
+            , bounds
+        );
+    }
+
+    /**
+     * The table <code>public.st_squaregrid</code>.
+     */
+    public final StSquaregrid ST_SQUAREGRID = StSquaregrid.ST_SQUAREGRID;
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static Result<StSquaregridRecord> ST_SQUAREGRID(
+          Configuration configuration
+        , Double size
+        , Object bounds
+    ) {
+        return configuration.dsl().selectFrom(springboot.webapp.usersmanager.generated_sources.jooq.tables.StSquaregrid.ST_SQUAREGRID.call(
+              size
+            , bounds
+        )).fetch();
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StSquaregrid ST_SQUAREGRID(
+          Double size
+        , Object bounds
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StSquaregrid.ST_SQUAREGRID.call(
+              size
+            , bounds
+        );
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StSquaregrid ST_SQUAREGRID(
+          Field<Double> size
+        , Field<Object> bounds
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StSquaregrid.ST_SQUAREGRID.call(
+              size
+            , bounds
+        );
+    }
+
+    /**
+     * The table <code>public.st_subdivide</code>.
+     */
+    public final StSubdivide ST_SUBDIVIDE = StSubdivide.ST_SUBDIVIDE;
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static Result<StSubdivideRecord> ST_SUBDIVIDE(
+          Configuration configuration
+        , Object geom
+        , Integer maxvertices
+        , Double gridsize
+    ) {
+        return configuration.dsl().selectFrom(springboot.webapp.usersmanager.generated_sources.jooq.tables.StSubdivide.ST_SUBDIVIDE.call(
+              geom
+            , maxvertices
+            , gridsize
+        )).fetch();
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StSubdivide ST_SUBDIVIDE(
+          Object geom
+        , Integer maxvertices
+        , Double gridsize
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StSubdivide.ST_SUBDIVIDE.call(
+              geom
+            , maxvertices
+            , gridsize
+        );
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @Deprecated
+    public static StSubdivide ST_SUBDIVIDE(
+          Field<Object> geom
+        , Field<Integer> maxvertices
+        , Field<Double> gridsize
+    ) {
+        return springboot.webapp.usersmanager.generated_sources.jooq.tables.StSubdivide.ST_SUBDIVIDE.call(
+              geom
+            , maxvertices
+            , gridsize
+        );
+    }
+
+    /**
      * The table <code>public.users</code>.
      */
     public final Users USERS = Users.USERS;
@@ -62,6 +380,23 @@ public class Public extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Databasechangelog.DATABASECHANGELOG,
             Databasechangeloglock.DATABASECHANGELOGLOCK,
+            GeographyColumns.GEOGRAPHY_COLUMNS,
+            GeometryColumns.GEOMETRY_COLUMNS,
+            Polygon.POLYGON,
+            SpatialRefSys.SPATIAL_REF_SYS,
+            StDump.ST_DUMP,
+            StDumppoints.ST_DUMPPOINTS,
+            StDumprings.ST_DUMPRINGS,
+            StHexagongrid.ST_HEXAGONGRID,
+            StSquaregrid.ST_SQUAREGRID,
+            StSubdivide.ST_SUBDIVIDE,
             Users.USERS);
+    }
+
+    @Override
+    public final List<UDT<?>> getUDTs() {
+        return Arrays.<UDT<?>>asList(
+            GeometryDump.GEOMETRY_DUMP,
+            ValidDetail.VALID_DETAIL);
     }
 }

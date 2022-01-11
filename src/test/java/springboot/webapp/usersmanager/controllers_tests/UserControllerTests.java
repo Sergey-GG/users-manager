@@ -38,7 +38,7 @@ public class UserControllerTests {
 
     @Test
     @SneakyThrows
-    public void getAllWhenListIsNotEmptyStatusOk() throws NullPointerException {
+    public void getAllWhenListIsNotEmptyStatusOk() {
         List<User> users = List.of(UserGenerator.getUser(), UserGenerator.getUser(), UserGenerator.getUser());
 
         when(userService.getAll()).thenReturn(users);

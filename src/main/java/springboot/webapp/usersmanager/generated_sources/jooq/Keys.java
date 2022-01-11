@@ -10,8 +10,12 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.Databasechangeloglock;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.Polygon;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.SpatialRefSys;
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.Users;
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.DatabasechangeloglockRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.PolygonRecord;
+import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.SpatialRefSysRecord;
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.records.UsersRecord;
 
 
@@ -27,6 +31,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<DatabasechangeloglockRecord> DATABASECHANGELOGLOCK_PKEY = Internal.createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, DSL.name("databasechangeloglock_pkey"), new TableField[] { Databasechangeloglock.DATABASECHANGELOGLOCK.ID }, true);
+    public static final UniqueKey<PolygonRecord> POLYGON_PKEY = Internal.createUniqueKey(Polygon.POLYGON, DSL.name("polygon_pkey"), new TableField[] { Polygon.POLYGON.ID }, true);
+    public static final UniqueKey<SpatialRefSysRecord> SPATIAL_REF_SYS_PKEY = Internal.createUniqueKey(SpatialRefSys.SPATIAL_REF_SYS, DSL.name("spatial_ref_sys_pkey"), new TableField[] { SpatialRefSys.SPATIAL_REF_SYS.SRID }, true);
     public static final UniqueKey<UsersRecord> USERS_EMAIL_KEY = Internal.createUniqueKey(Users.USERS, DSL.name("users_email_key"), new TableField[] { Users.USERS.EMAIL }, true);
     public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, DSL.name("users_pkey"), new TableField[] { Users.USERS.ID }, true);
 }
