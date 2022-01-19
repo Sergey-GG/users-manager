@@ -1,6 +1,8 @@
 package springboot.webapp.usersmanager.services;
 
 import lombok.AllArgsConstructor;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.springframework.stereotype.Service;
 import springboot.webapp.usersmanager.entities.Polygon;
 import springboot.webapp.usersmanager.repositories.PolygonRepository;
@@ -36,7 +38,14 @@ public class PolygonServiceImpl implements PolygonService {
 
     @Override
     public Polygon calcArea(Polygon polygon) {
-        double area = polygon.getArea();
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate[] coordinates = new Coordinate[1];
+        CoordinateSequence coordinateSequence = new CoordinateArraySequence(coordinates);
+        LinearRing shell = new LinearRing(coordinateSequence,geometryFactory);
+        LinearRing[] holes = new LinearRing[1];
+        Geometry polygonCoordinates = new org.locationtech.jts.geom.Polygon(shell,holes,geometryFactory);
+
+        double area = polygonCoordinates.getArea();
         return new Polygon(polygon.getId(), area, polygon.getGeometry());
     }
 }

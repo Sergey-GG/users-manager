@@ -81,7 +81,7 @@
                 </executions>
 
                 <configuration>
-                    <skip>true</skip>
+                    <skip>false</skip>
                     <jdbc>
                         <driver>${db.driver}</driver>
                         <url>${db.url}</url>
@@ -93,7 +93,7 @@
 
                         <database>
                             <name>org.jooq.meta.postgres.PostgresDatabase</name>
-                            <includes>.*</includes>
+                            <includes>polygon|users</includes>
                             <excludes/>
                             <inputSchema>public</inputSchema>
                         </database>
