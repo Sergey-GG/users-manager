@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -22,5 +21,5 @@ public class Polygon {
     private double area;
 
     @Column(nullable = false)
-    private String geometry;
+    private org.locationtech.jts.geom.Polygon geometry;
 }

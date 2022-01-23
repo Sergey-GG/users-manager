@@ -56,7 +56,7 @@ public class PolygonRepositoryImpl implements PolygonRepository{
 
     @Override
     public List<springboot.webapp.usersmanager.entities.Polygon> findAll() {
-        return dslContext.select()
+        return  dslContext.select()
                 .from(POLYGON)
                 .fetchInto(springboot.webapp.usersmanager.entities.Polygon.class);
     }

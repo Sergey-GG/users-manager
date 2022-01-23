@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.postgresql.util.PGobject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -38,7 +39,7 @@ class PolygonControllerTest {
     @Test
     @SneakyThrows
     void getAllWhenListIsNotEmptyStatusOk()   {
-        List<Polygon> polygons = List.of(PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon());
+        List<Polygon> polygons =  List.of(PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon());
 
         when(polygonService.getAll()).thenReturn(polygons);
 
