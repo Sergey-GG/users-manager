@@ -21,5 +21,6 @@ public class Polygon {
     private double area;
 
     @Column(nullable = false)
-    private org.locationtech.jts.geom.Polygon geometry;
+    private String geometry;
 }
+

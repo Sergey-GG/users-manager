@@ -1,6 +1,7 @@
 package springboot.webapp.usersmanager.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.webapp.usersmanager.entities.Polygon;
@@ -29,6 +30,7 @@ public class PolygonController {
     }
 
     @PutMapping
+    @SneakyThrows
     public ResponseEntity<Boolean> put(@RequestBody Polygon polygon) {
         return ResponseEntity.ok(polygonService.put(polygon));
 

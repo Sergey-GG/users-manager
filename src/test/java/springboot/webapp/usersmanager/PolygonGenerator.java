@@ -28,7 +28,7 @@ public class PolygonGenerator {
         return new Polygon(
                 new Random().nextLong(),
                 new Random().nextDouble(),
-                new org.locationtech.jts.geom.Polygon(shell, holes, geometryFactory)
+                new org.locationtech.jts.geom.Polygon(shell, holes, geometryFactory).toString()
         );
     }
 }
