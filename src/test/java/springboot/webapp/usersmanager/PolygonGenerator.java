@@ -25,10 +25,12 @@ public class PolygonGenerator {
         LinearRing shell = new LinearRing(coordinateSequence, geometryFactory);
         LinearRing[] holes = new LinearRing[0];
 
+        Geometry geometry = new org.locationtech.jts.geom.Polygon(shell, holes, geometryFactory);
+
         return new Polygon(
-                new Random().nextLong(),
-                new Random().nextDouble(),
-                new org.locationtech.jts.geom.Polygon(shell, holes, geometryFactory).toString()
+                new Random().nextInt(30),
+                geometry.getArea(),
+                geometry.toString()
         );
     }
 }

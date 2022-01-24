@@ -2,12 +2,12 @@ package springboot.webapp.usersmanager.repositories;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.jooq.DSLContext;
-import org.locationtech.jts.io.WKTReader;
+import org.jooq.*;
 import org.springframework.stereotype.Repository;
 import springboot.webapp.usersmanager.entities.Polygon;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static springboot.webapp.usersmanager.generated_sources.jooq.Tables.POLYGON;
@@ -33,28 +33,28 @@ public class PolygonRepositoryImpl implements PolygonRepository {
     @Override
     @SneakyThrows
     public Polygon put(Polygon polygon) {
-        WKTReader wktReader = new WKTReader();
-        if (existsById(polygon.getId())) {
-            return dslContext.update(POLYGON)
-                    .set(POLYGON.AREA, polygon.getArea())
-                    .set(POLYGON.GEOMETRY, wktReader.read(polygon.getGeometry()))
-                    .where(POLYGON.ID.eq(polygon.getId()))
-                    .returning()
-                    .fetchOne()
-                    .into(springboot.webapp.usersmanager.entities.Polygon.class);
-        }
-        return dslContext.insertInto(POLYGON,
-                        POLYGON.ID,
-                        POLYGON.AREA,
-                        POLYGON.GEOMETRY
-                )
-                .values(polygon.getId(),
-                        polygon.getArea(),
-                        wktReader.read(polygon.getGeometry())
-                )
-                .returning()
-                .fetchOne()
-                .into(springboot.webapp.usersmanager.entities.Polygon.class);
+//        WKTReader wktReader = new WKTReader();
+            if (existsById(polygon.getId())) {
+                return Objects.requireNonNull(dslContext.update(POLYGON)
+                                .set(POLYGON.AREA, polygon.getArea())
+                                .set(POLYGON.GEOMETRY, polygon.getGeometry())
+                                .where(POLYGON.ID.eq(polygon.getId()))
+                                .returning()
+                                .fetchOne())
+                        .into(Polygon.class);
+            }
+            return Objects.requireNonNull(dslContext.insertInto(POLYGON,
+                                    POLYGON.ID,
+                                    POLYGON.AREA,
+                                    POLYGON.GEOMETRY
+                            )
+                            .values(polygon.getId(),
+                                    polygon.getArea(),
+                                    polygon.getGeometry()
+                            )
+                            .returning()
+                            .fetchOne())
+                    .into(Polygon.class);
     }
 
     @Override
@@ -70,4 +70,11 @@ public class PolygonRepositoryImpl implements PolygonRepository {
                 .where(POLYGON.ID.eq(id))
                 .fetchOptionalInto(springboot.webapp.usersmanager.entities.Polygon.class);
     }
+
+
+//    public void example(){
+//        dslContext.select(field(stEquals(
+//                stGeomFromText("POLYGON (-1 -1, 1 1, 1 -1, -1 -1)")
+//        ))).fetch();
+//    }
 }

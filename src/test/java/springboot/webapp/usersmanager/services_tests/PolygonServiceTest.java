@@ -1,5 +1,6 @@
 package springboot.webapp.usersmanager.services_tests;
 
+import lombok.SneakyThrows;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -44,17 +45,16 @@ class PolygonServiceTest {
     public void getById() {
         final Polygon polygon = PolygonGenerator.getPolygon();
 
-        final Optional<Polygon> optionalUser = Optional.of(polygon);
+        final Optional<Polygon> optionalPolygon = Optional.of(polygon);
 
-        when(polygonRepository.findById(polygon.getId())).thenReturn(optionalUser);
+        when(polygonRepository.findById(polygon.getId())).thenReturn(optionalPolygon);
 
-        Optional<Polygon> responseUser = polygonService.get(optionalUser.get().getId());
+        Optional<Polygon> responsePolygon = polygonService.get(optionalPolygon.get().getId());
 
-        MatcherAssert.assertThat(responseUser.isPresent(), is(true));
-        MatcherAssert.assertThat(responseUser.get(), is(optionalUser.get()));
+        MatcherAssert.assertThat(responsePolygon.isPresent(), is(true));
+        MatcherAssert.assertThat(responsePolygon.get(), is(optionalPolygon.get()));
 
     }
-
 
 
     @Test
@@ -75,5 +75,15 @@ class PolygonServiceTest {
         when(polygonRepository.deleteById(polygon.getId())).thenReturn(0);
 
         MatcherAssert.assertThat(polygonService.delete(polygon.getId()), is(false));
+    }
+
+    @Test
+    @SneakyThrows
+    public void putWhenNonExistentPolygonResultIsTrue() {
+        final Polygon polygon = PolygonGenerator.getPolygon();
+
+        when(polygonRepository.put(polygon)).thenReturn(polygon);
+
+        MatcherAssert.assertThat(polygonService.put(polygon), is(true));
     }
 }
