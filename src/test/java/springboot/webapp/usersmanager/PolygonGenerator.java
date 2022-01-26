@@ -8,24 +8,21 @@ import java.util.Random;
 
 public class PolygonGenerator {
     public static Polygon getPolygon() {
-        GeometryFactory geometryFactory = new GeometryFactory();
-
         CoordinateXY[] coordinates = new CoordinateXY[new Random().nextInt(7) + 4];
-        int i;
-        for (i = 0; i < coordinates.length - 1; i++) {
-            CoordinateXY coordinate = new CoordinateXY();
-            coordinate.x = new Random().nextDouble() * 10;
-            coordinate.y = new Random().nextDouble() * 10;
-            coordinates[i] = coordinate;
+       {
+            int i = 0;
+            while (i < coordinates.length - 1) {
+                coordinates[i].x = new Random().nextDouble() * 10;
+                coordinates[i].y = new Random().nextDouble() * 10;
+                i++;
+            }
+            coordinates[i] = coordinates[0];
         }
-        coordinates[i] = coordinates[0];
 
-
-        CoordinateSequence coordinateSequence = new CoordinateArraySequence(coordinates);
-        LinearRing shell = new LinearRing(coordinateSequence, geometryFactory);
-        LinearRing[] holes = new LinearRing[0];
-
-        Geometry geometry = new org.locationtech.jts.geom.Polygon(shell, holes, geometryFactory);
+        Geometry geometry = new org.locationtech.jts.geom.Polygon(
+                new LinearRing(new CoordinateArraySequence(coordinates), new GeometryFactory()),
+                new LinearRing[0],
+                new GeometryFactory());
 
         return new Polygon(
                 new Random().nextInt(30),

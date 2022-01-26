@@ -3,6 +3,8 @@ package springboot.webapp.usersmanager.repositories;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.jooq.*;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Repository;
 import springboot.webapp.usersmanager.entities.Polygon;
 
@@ -33,11 +35,10 @@ public class PolygonRepositoryImpl implements PolygonRepository {
     @Override
     @SneakyThrows
     public Polygon put(Polygon polygon) {
-//        WKTReader wktReader = new WKTReader();
             if (existsById(polygon.getId())) {
                 return Objects.requireNonNull(dslContext.update(POLYGON)
                                 .set(POLYGON.AREA, polygon.getArea())
-                                .set(POLYGON.GEOMETRY, polygon.getGeometry())
+                                .set(POLYGON.GEOMETRY, new WKTReader(new GeometryFactory()).read(polygon.getGeometry()))
                                 .where(POLYGON.ID.eq(polygon.getId()))
                                 .returning()
                                 .fetchOne())
@@ -50,7 +51,7 @@ public class PolygonRepositoryImpl implements PolygonRepository {
                             )
                             .values(polygon.getId(),
                                     polygon.getArea(),
-                                    polygon.getGeometry()
+                                    new WKTReader(new GeometryFactory()).read(polygon.getGeometry())
                             )
                             .returning()
                             .fetchOne())
@@ -72,9 +73,9 @@ public class PolygonRepositoryImpl implements PolygonRepository {
     }
 
 
-//    public void example(){
-//        dslContext.select(field(stEquals(
-//                stGeomFromText("POLYGON (-1 -1, 1 1, 1 -1, -1 -1)")
-//        ))).fetch();
+//    public void example(Polygon polygon){
+//        dslContext
+//                .select(stGeomFromText(polygon.getGeometry))
+//                .fetch();
 //    }
 }
