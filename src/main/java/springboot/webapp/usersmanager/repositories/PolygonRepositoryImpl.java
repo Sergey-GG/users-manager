@@ -77,9 +77,5 @@ public class PolygonRepositoryImpl implements PolygonRepository {
                 .fetchOptionalInto(springboot.webapp.usersmanager.entities.Polygon.class);
     }
 
-//    public void example(org.locationtech.jts.geom.Polygon polygon, Binding binding){
-//        DataType<Polygon> polygonType = SQLDataType.OTHER.asConvertedDataType(binding);
-//        Field<Polygon> bindValue = dslContext.val(polygon, polygonType);
-//        dslContext.condition("ST_WITHIN({0}, {1})", POLYGON.GEOMETRY, bindValue);
-//    }
+
 }
