@@ -1,33 +1,33 @@
 package springboot.webapp.usersmanager;
 
-import org.locationtech.jts.geom.*;
-import org.locationtech.jts.geom.impl.CoordinateArraySequence;
+import springboot.webapp.usersmanager.CustomGeometry.*;
 import springboot.webapp.usersmanager.entities.Polygon;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PolygonGenerator {
     public static Polygon getPolygon() {
-        CoordinateXY[] coordinates = new CoordinateXY[new Random().nextInt(7) + 4];
-       {
+        List<CustomPoint> coordinates = new ArrayList<>();
+        int size = new Random().nextInt(7) + 4;
+        {
             int i = 0;
-            while (i < coordinates.length - 1) {
-                coordinates[i].x = new Random().nextDouble() * 10;
-                coordinates[i].y = new Random().nextDouble() * 10;
+            while (i < size - 1) {
+                coordinates.add(new CustomPoint(new Random().nextDouble() * 10, new Random().nextDouble() * 10));
                 i++;
             }
-            coordinates[i] = coordinates[0];
+            coordinates.add(coordinates.get(0));
         }
 
-        Geometry geometry = new org.locationtech.jts.geom.Polygon(
-                new LinearRing(new CoordinateArraySequence(coordinates), new GeometryFactory()),
-                new LinearRing[0],
-                new GeometryFactory());
+        CustomGeometry customGeometry = new CustomPolygon(List.of(coordinates));
+        String geometry = customGeometry.toString().replace('[', '(');
+        geometry = geometry.replace(']', ')');
 
         return new Polygon(
                 new Random().nextInt(30),
-                geometry.getArea(),
-                geometry.toString()
+                new WKTParser().parse(geometry).getArea(),
+                geometry
         );
     }
 }

@@ -10,7 +10,7 @@ public interface PolygonRepository {
 
     Integer deleteById(long id);
 
-    Polygon put(Polygon polygon);
+    int put(Polygon polygon);
 
     List<Polygon> findAll();
 

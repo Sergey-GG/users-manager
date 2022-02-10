@@ -12,17 +12,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import springboot.webapp.usersmanager.PolygonGenerator;
-import springboot.webapp.usersmanager.UserGenerator;
 import springboot.webapp.usersmanager.controllers.PolygonController;
 import springboot.webapp.usersmanager.entities.Polygon;
-import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.services.PolygonService;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class PolygonControllerTest {
@@ -87,8 +84,24 @@ class PolygonControllerTest {
     }
 
     @Test
-    void put() {
+    @SneakyThrows
+    void put()  {
+        final Polygon polygon = PolygonGenerator.getPolygon();
+
+        when(polygonService.put(polygon)).thenReturn(true);
+
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .put("/polygons")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(polygon)))
+                .andReturn()
+                .getResponse();
+
+
+        MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
     }
+
 
     @Test
     @SneakyThrows

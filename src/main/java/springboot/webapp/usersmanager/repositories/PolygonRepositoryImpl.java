@@ -3,16 +3,12 @@ package springboot.webapp.usersmanager.repositories;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.jooq.*;
-import org.jooq.impl.SQLDataType;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.io.WKTReader;
+import org.jooq.impl.CustomField;
 import org.springframework.stereotype.Repository;
 import springboot.webapp.usersmanager.entities.Polygon;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-
 
 import static springboot.webapp.usersmanager.generated_sources.jooq.Tables.POLYGON;
 
@@ -34,47 +30,38 @@ public class PolygonRepositoryImpl implements PolygonRepository {
                 .execute();
     }
 
+
     @Override
     @SneakyThrows
-    public Polygon put(Polygon polygon) {
+    public int put(Polygon polygon) {
         if (existsById(polygon.getId())) {
-            return Objects.requireNonNull(dslContext.update(POLYGON)
-                            .set(POLYGON.AREA, polygon.getArea())
-                            .set(POLYGON.GEOMETRY, /*stGeomFromText()*/
-                                    new WKTReader(new GeometryFactory()).read(polygon.getGeometry()))
-                            .where(POLYGON.ID.eq(polygon.getId()))
-                            .returning()
-                            .fetchOne())
-                    .into(Polygon.class);
+            return dslContext.query(
+                    "UPDATE polygon SET area = '" + polygon.getArea() +
+                            "',  geometry = ST_GeomFromText('" + polygon.getGeometry() +
+                            "') where id ='" + polygon.getId() + "';").execute();
+
+
         }
-        return Objects.requireNonNull(dslContext.insertInto(POLYGON,
-                                POLYGON.ID,
-                                POLYGON.AREA,
-                                POLYGON.GEOMETRY
-                        )
-                        .values(polygon.getId(),
-                                polygon.getArea(),
-                                /*stGeomFromText()*/
-                                new WKTReader(new GeometryFactory()).read(polygon.getGeometry())
-                        )
-                        .returning()
-                        .fetchOne())
-                .into(Polygon.class);
+        return dslContext.query(
+                "INSERT INTO polygon VALUES('" + polygon.getId() +
+                        "', '" + polygon.getArea() +
+                        "', ST_GeomFromText('" +
+                        polygon.getGeometry() +
+                        "'))").execute();
     }
 
     @Override
     public List<springboot.webapp.usersmanager.entities.Polygon> findAll() {
-        return dslContext.select(/*stAsText()*/)
-                .from(POLYGON)
+        return dslContext.resultQuery("SELECT id, area, ST_AsText(geometry) FROM polygon")
                 .fetchInto(springboot.webapp.usersmanager.entities.Polygon.class);
     }
 
     @Override
     public Optional<springboot.webapp.usersmanager.entities.Polygon> findById(long id) {
-
-        return dslContext.selectFrom(/*stAsText()*/ POLYGON)
-                .where(POLYGON.ID.eq(id))
+        return dslContext
+                .resultQuery("SELECT id, area, ST_AsText(geometry) FROM polygon WHERE id = '" + id + "'")
                 .fetchOptionalInto(springboot.webapp.usersmanager.entities.Polygon.class);
+
     }
 
 

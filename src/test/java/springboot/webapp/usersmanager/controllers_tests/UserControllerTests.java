@@ -102,7 +102,7 @@ public class UserControllerTests {
 
 
         MatcherAssert.assertThat(response.getStatus(), is(HttpStatus.OK.value()));
-            }
+    }
 
     @Test
     @SneakyThrows

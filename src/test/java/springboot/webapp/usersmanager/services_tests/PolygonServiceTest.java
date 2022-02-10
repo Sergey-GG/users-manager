@@ -82,7 +82,7 @@ class PolygonServiceTest {
     public void putWhenNonExistentPolygonResultIsTrue() {
         final Polygon polygon = PolygonGenerator.getPolygon();
 
-        when(polygonRepository.put(polygon)).thenReturn(polygon);
+        when(polygonRepository.put(polygon)).thenReturn(1);
 
         MatcherAssert.assertThat(polygonService.put(polygon), is(true));
     }

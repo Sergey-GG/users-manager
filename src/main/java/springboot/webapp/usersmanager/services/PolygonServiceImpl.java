@@ -2,10 +2,8 @@ package springboot.webapp.usersmanager.services;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Service;
+import springboot.webapp.usersmanager.CustomGeometry.WKTParser;
 import springboot.webapp.usersmanager.entities.Polygon;
 import springboot.webapp.usersmanager.repositories.PolygonRepository;
 
@@ -25,8 +23,7 @@ public class PolygonServiceImpl implements PolygonService {
     @Override
     @SneakyThrows
     public boolean put(Polygon polygon) {
-        System.out.println(calcArea(polygon).toString());
-        return polygonRepository.put(calcArea(polygon)) != null;
+        return polygonRepository.put(calcArea(polygon)) != 0;
     }
 
     @Override
@@ -43,7 +40,7 @@ public class PolygonServiceImpl implements PolygonService {
     @SneakyThrows
     public Polygon calcArea(Polygon polygon) {
         return new Polygon(polygon.getId(),
-                new WKTReader(new GeometryFactory()).read(polygon.getGeometry()).getArea(),
+                new WKTParser().parse(polygon.getGeometry()).getArea(),
                 polygon.getGeometry());
     }
 }
