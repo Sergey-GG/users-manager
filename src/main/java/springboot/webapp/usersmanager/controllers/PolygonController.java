@@ -30,7 +30,6 @@ public class PolygonController {
     }
 
     @PutMapping
-    @SneakyThrows
     public ResponseEntity<Boolean> put(@RequestBody Polygon polygon) {
         return ResponseEntity.ok(polygonService.put(polygon));
 
