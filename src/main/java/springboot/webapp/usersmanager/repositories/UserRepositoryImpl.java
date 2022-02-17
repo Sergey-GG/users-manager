@@ -7,6 +7,7 @@ import springboot.webapp.usersmanager.entities.User;
 import springboot.webapp.usersmanager.generated_sources.jooq.tables.Users;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -35,29 +36,29 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User put(User user) {
         if (existsById(user.getId())) {
-            return dslContext.update(Users.USERS)
-                    .set(Users.USERS.NAME, user.getName())
-                    .set(Users.USERS.SURNAME, user.getSurname())
-                    .set(Users.USERS.EMAIL, user.getEmail())
-                    .set(Users.USERS.ROLE, user.getRole().toString())
-                    .where(Users.USERS.ID.eq(user.getId()))
-                    .returning()
-                    .fetchOne()
+            return Objects.requireNonNull(dslContext.update(Users.USERS)
+                            .set(Users.USERS.NAME, user.getName())
+                            .set(Users.USERS.SURNAME, user.getSurname())
+                            .set(Users.USERS.EMAIL, user.getEmail())
+                            .set(Users.USERS.ROLE, user.getRole().toString())
+                            .where(Users.USERS.ID.eq(user.getId()))
+                            .returning()
+                            .fetchOne())
                     .into(User.class);
         }
-        return dslContext.insertInto(Users.USERS,
-                        Users.USERS.ID,
-                        Users.USERS.NAME,
-                        Users.USERS.SURNAME,
-                        Users.USERS.EMAIL,
-                        Users.USERS.ROLE)
-                .values(user.getId(),
-                        user.getName(),
-                        user.getSurname(),
-                        user.getEmail(),
-                        user.getRole().toString())
-                .returning()
-                .fetchOne()
+        return Objects.requireNonNull(dslContext.insertInto(Users.USERS,
+                                Users.USERS.ID,
+                                Users.USERS.NAME,
+                                Users.USERS.SURNAME,
+                                Users.USERS.EMAIL,
+                                Users.USERS.ROLE)
+                        .values(user.getId(),
+                                user.getName(),
+                                user.getSurname(),
+                                user.getEmail(),
+                                user.getRole().toString())
+                        .returning()
+                        .fetchOne())
                 .into(User.class);
     }
 
