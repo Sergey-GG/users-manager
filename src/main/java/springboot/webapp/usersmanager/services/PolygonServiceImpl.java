@@ -1,9 +1,7 @@
 package springboot.webapp.usersmanager.services;
 
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
-import springboot.webapp.usersmanager.CustomGeometry.WKTParser;
 import springboot.webapp.usersmanager.entities.Polygon;
 import springboot.webapp.usersmanager.repositories.PolygonRepository;
 
@@ -21,9 +19,8 @@ public class PolygonServiceImpl implements PolygonService {
     }
 
     @Override
-    @SneakyThrows
     public boolean put(Polygon polygon) {
-        return polygonRepository.put(calcArea(polygon)) != 0;
+        return polygonRepository.put(polygon) != 0;
     }
 
     @Override
@@ -36,11 +33,5 @@ public class PolygonServiceImpl implements PolygonService {
         return polygonRepository.deleteById(id) > 0;
     }
 
-    @Override
-    @SneakyThrows
-    public Polygon calcArea(Polygon polygon) {
-        return new Polygon(polygon.getId(),
-                new WKTParser().parse(polygon.getGeometry()).getArea(),
-                polygon.getGeometry());
-    }
+
 }

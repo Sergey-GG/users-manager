@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PolygonRepository {
-    boolean existsById(long id);
+    boolean doesExistById(long id);
 
     Integer deleteById(long id);
 

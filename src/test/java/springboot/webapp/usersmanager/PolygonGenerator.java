@@ -10,7 +10,9 @@ import java.util.Random;
 public class PolygonGenerator {
     public static Polygon getPolygon() {
         List<CustomPoint> coordinates = new ArrayList<>();
-        int size = new Random().nextInt(7) + 4;
+        final int MIN_POINTS_NUMB = 4;
+        final int BOUND = 20;
+        int size = new Random().nextInt(BOUND) + MIN_POINTS_NUMB;
         {
             int i = 0;
             while (i < size - 1) {
@@ -21,13 +23,10 @@ public class PolygonGenerator {
         }
 
         CustomGeometry customGeometry = new CustomPolygon(List.of(coordinates));
-        String geometry = customGeometry.toString().replace('[', '(');
-        geometry = geometry.replace(']', ')');
 
         return new Polygon(
                 new Random().nextInt(30),
-                new WKTParser().parse(geometry).getArea(),
-                geometry
+                customGeometry.toString()
         );
     }
 }

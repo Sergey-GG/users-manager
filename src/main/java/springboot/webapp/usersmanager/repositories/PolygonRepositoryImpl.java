@@ -1,9 +1,7 @@
 package springboot.webapp.usersmanager.repositories;
 
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.jooq.*;
-import org.jooq.impl.CustomField;
 import org.springframework.stereotype.Repository;
 import springboot.webapp.usersmanager.entities.Polygon;
 
@@ -19,7 +17,7 @@ public class PolygonRepositoryImpl implements PolygonRepository {
     private final DSLContext dslContext;
 
     @Override
-    public boolean existsById(long id) {
+    public boolean doesExistById(long id) {
         return dslContext.fetchExists(POLYGON, POLYGON.ID.eq(id));
     }
 
@@ -32,20 +30,19 @@ public class PolygonRepositoryImpl implements PolygonRepository {
 
 
     @Override
-    @SneakyThrows
     public int put(Polygon polygon) {
-        if (existsById(polygon.getId())) {
+        if (doesExistById(polygon.getId())) {
             return dslContext.query(
-                    "UPDATE polygon SET area = '" + polygon.getArea() +
-                            "',  geometry = ST_GeomFromText('" + polygon.getGeometry() +
+                    "UPDATE polygon SET area = ST_Area('"+ polygon.getGeometry() + "')," +
+                            " geometry = ST_GeomFromText('" + polygon.getGeometry() +
                             "') where id ='" + polygon.getId() + "';").execute();
 
 
         }
         return dslContext.query(
                 "INSERT INTO polygon VALUES('" + polygon.getId() +
-                        "', '" + polygon.getArea() +
-                        "', ST_GeomFromText('" +
+                        "', ST_Area('"+ polygon.getGeometry() + "') "+
+                        ", ST_GeomFromText('" +
                         polygon.getGeometry() +
                         "'))").execute();
     }

@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "polygon")
 public class Polygon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +21,10 @@ public class Polygon {
 
     @Column(nullable = false)
     private String geometry;
+
+    public Polygon(long id, String geometry) {
+        this.id = id;
+        this.geometry = geometry;
+    }
 }
 

@@ -1,14 +1,14 @@
 package springboot.webapp.usersmanager.CustomGeometry;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 
-@Data
+@Getter
 @AllArgsConstructor
 public class CustomPoint implements CustomGeometry {
 
-    final private GeometryType type = GeometryType.POINT;
+    final private GeometryType TYPE = GeometryType.POINT;
 
     private double x;
     private double y;
