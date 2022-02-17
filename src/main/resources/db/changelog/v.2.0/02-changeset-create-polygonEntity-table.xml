@@ -17,7 +17,7 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="polygon"/>
+            <dropTable tableName="polygonEntity"/>
         </rollback>
     </changeSet>
 

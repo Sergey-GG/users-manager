@@ -8,7 +8,7 @@ import springboot.webapp.usersmanager.entities.PolygonEntity;
 import java.util.List;
 import java.util.Optional;
 
-import static springboot.webapp.usersmanager.generated_sources.jooq.Tables.POLYGON;
+import static springboot.webapp.usersmanager.generated_sources.jooq.Tables.POLYGONENTITY;
 
 @Repository
 @AllArgsConstructor
@@ -18,13 +18,13 @@ public class PolygonRepositoryImpl implements PolygonRepository {
 
     @Override
     public boolean doesExistById(long id) {
-        return dslContext.fetchExists(POLYGON, POLYGON.ID.eq(id));
+        return dslContext.fetchExists(POLYGONENTITY, POLYGONENTITY.ID.eq(id));
     }
 
     @Override
     public Integer deleteById(long id) {
-        return dslContext.deleteFrom(POLYGON)
-                .where(POLYGON.ID.eq(id))
+        return dslContext.deleteFrom(POLYGONENTITY)
+                .where(POLYGONENTITY.ID.eq(id))
                 .execute();
     }
 
