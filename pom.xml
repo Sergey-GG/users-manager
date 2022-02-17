@@ -88,7 +88,7 @@
 
                         <database>
                             <name>org.jooq.meta.postgres.PostgresDatabase</name>
-                            <includes>users|polygon</includes>
+                            <includes>users|polygonEntity</includes>
                             <excludes/>
                             <inputSchema>public</inputSchema>
                         </database>

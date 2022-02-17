@@ -3,7 +3,7 @@ package springboot.webapp.usersmanager.repositories;
 import lombok.AllArgsConstructor;
 import org.jooq.*;
 import org.springframework.stereotype.Repository;
-import springboot.webapp.usersmanager.entities.Polygon;
+import springboot.webapp.usersmanager.entities.PolygonEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,34 +30,34 @@ public class PolygonRepositoryImpl implements PolygonRepository {
 
 
     @Override
-    public int put(Polygon polygon) {
-        if (doesExistById(polygon.getId())) {
+    public int put(PolygonEntity polygonEntity) {
+        if (doesExistById(polygonEntity.getId())) {
             return dslContext.query(
-                    "UPDATE polygon SET area = ST_Area('"+ polygon.getGeometry() + "')," +
-                            " geometry = ST_GeomFromText('" + polygon.getGeometry() +
-                            "') where id ='" + polygon.getId() + "';").execute();
+                    "UPDATE polygon SET area = ST_Area('"+ polygonEntity.getGeometry() + "')," +
+                            " geometry = ST_GeomFromText('" + polygonEntity.getGeometry() +
+                            "') where id ='" + polygonEntity.getId() + "';").execute();
 
 
         }
         return dslContext.query(
-                "INSERT INTO polygon VALUES('" + polygon.getId() +
-                        "', ST_Area('"+ polygon.getGeometry() + "') "+
+                "INSERT INTO polygon VALUES('" + polygonEntity.getId() +
+                        "', ST_Area('"+ polygonEntity.getGeometry() + "') "+
                         ", ST_GeomFromText('" +
-                        polygon.getGeometry() +
+                        polygonEntity.getGeometry() +
                         "'))").execute();
     }
 
     @Override
-    public List<springboot.webapp.usersmanager.entities.Polygon> findAll() {
+    public List<PolygonEntity> findAll() {
         return dslContext.resultQuery("SELECT id, area, ST_AsText(geometry) FROM polygon")
-                .fetchInto(springboot.webapp.usersmanager.entities.Polygon.class);
+                .fetchInto(PolygonEntity.class);
     }
 
     @Override
-    public Optional<springboot.webapp.usersmanager.entities.Polygon> findById(long id) {
+    public Optional<PolygonEntity> findById(long id) {
         return dslContext
                 .resultQuery("SELECT id, area, ST_AsText(geometry) FROM polygon WHERE id = '" + id + "'")
-                .fetchOptionalInto(springboot.webapp.usersmanager.entities.Polygon.class);
+                .fetchOptionalInto(PolygonEntity.class);
 
     }
 

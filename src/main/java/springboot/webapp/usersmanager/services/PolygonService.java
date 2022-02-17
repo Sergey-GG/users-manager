@@ -1,16 +1,16 @@
 package springboot.webapp.usersmanager.services;
 
-import springboot.webapp.usersmanager.entities.Polygon;
+import springboot.webapp.usersmanager.entities.PolygonEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PolygonService {
-    List<Polygon> getAll();
+    List<PolygonEntity> getAll();
 
-    boolean put(Polygon polygon);
+    boolean put(PolygonEntity polygon);
 
-    Optional<Polygon> get(long id);
+    Optional<PolygonEntity> get(long id);
 
     boolean delete(long id);
 

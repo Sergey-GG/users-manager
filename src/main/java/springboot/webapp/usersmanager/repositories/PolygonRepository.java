@@ -1,6 +1,6 @@
 package springboot.webapp.usersmanager.repositories;
 
-import springboot.webapp.usersmanager.entities.Polygon;
+import springboot.webapp.usersmanager.entities.PolygonEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +10,9 @@ public interface PolygonRepository {
 
     Integer deleteById(long id);
 
-    int put(Polygon polygon);
+    int put(PolygonEntity polygon);
 
-    List<Polygon> findAll();
+    List<PolygonEntity> findAll();
 
-    Optional<Polygon> findById(long id);
+    Optional<PolygonEntity> findById(long id);
 }

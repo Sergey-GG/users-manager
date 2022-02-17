@@ -5,7 +5,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import springboot.webapp.usersmanager.PolygonGenerator;
-import springboot.webapp.usersmanager.entities.Polygon;
+import springboot.webapp.usersmanager.entities.PolygonEntity;
 import springboot.webapp.usersmanager.repositories.PolygonRepository;
 import springboot.webapp.usersmanager.services.PolygonService;
 import springboot.webapp.usersmanager.services.PolygonServiceImpl;
@@ -24,17 +24,17 @@ class PolygonServiceTest {
 
     @Test
     public void getAll() {
-        Polygon polygon1 = PolygonGenerator.getPolygon();
+        PolygonEntity polygon1 = PolygonGenerator.getPolygon();
 
-        Polygon polygon2 = PolygonGenerator.getPolygon();
+        PolygonEntity polygon2 = PolygonGenerator.getPolygon();
 
-        Polygon polygon3 = PolygonGenerator.getPolygon();
+        PolygonEntity polygon3 = PolygonGenerator.getPolygon();
 
-        List<Polygon> polygons = List.of(polygon1, polygon2, polygon3);
+        List<PolygonEntity> polygons = List.of(polygon1, polygon2, polygon3);
 
         when(polygonRepository.findAll()).thenReturn(polygons);
 
-        List<Polygon> responseList = polygonService.getAll();
+        List<PolygonEntity> responseList = polygonService.getAll();
 
         MatcherAssert.assertThat(polygons.size(), is(3));
         MatcherAssert.assertThat(responseList, containsInAnyOrder(polygon1, polygon2, polygon3));
@@ -43,13 +43,13 @@ class PolygonServiceTest {
 
     @Test
     public void getById() {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
-        final Optional<Polygon> optionalPolygon = Optional.of(polygon);
+        final Optional<PolygonEntity> optionalPolygon = Optional.of(polygon);
 
         when(polygonRepository.findById(polygon.getId())).thenReturn(optionalPolygon);
 
-        Optional<Polygon> responsePolygon = polygonService.get(optionalPolygon.get().getId());
+        Optional<PolygonEntity> responsePolygon = polygonService.get(optionalPolygon.get().getId());
 
         MatcherAssert.assertThat(responsePolygon.isPresent(), is(true));
         MatcherAssert.assertThat(responsePolygon.get(), is(optionalPolygon.get()));
@@ -59,7 +59,7 @@ class PolygonServiceTest {
 
     @Test
     public void deleteWhenExistedPolygonResultIsTrue() {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
         when(polygonRepository.deleteById(polygon.getId())).thenReturn(1);
 
@@ -70,7 +70,7 @@ class PolygonServiceTest {
 
     @Test
     public void deleteByIdWhenNonExistentPolygonResultIsFalse() {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
         when(polygonRepository.deleteById(polygon.getId())).thenReturn(0);
 
@@ -80,7 +80,7 @@ class PolygonServiceTest {
     @Test
     @SneakyThrows
     public void putWhenNonExistentPolygonResultIsTrue() {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
         when(polygonRepository.put(polygon)).thenReturn(1);
 

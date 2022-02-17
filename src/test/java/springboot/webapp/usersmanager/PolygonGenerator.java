@@ -1,14 +1,14 @@
 package springboot.webapp.usersmanager;
 
 import springboot.webapp.usersmanager.CustomGeometry.*;
-import springboot.webapp.usersmanager.entities.Polygon;
+import springboot.webapp.usersmanager.entities.PolygonEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class PolygonGenerator {
-    public static Polygon getPolygon() {
+    public static PolygonEntity getPolygon() {
         List<CustomPoint> coordinates = new ArrayList<>();
         final int MIN_POINTS_NUMB = 4;
         final int BOUND = 20;
@@ -24,7 +24,7 @@ public class PolygonGenerator {
 
         CustomGeometry customGeometry = new CustomPolygon(List.of(coordinates));
 
-        return new Polygon(
+        return new PolygonEntity(
                 new Random().nextInt(30),
                 customGeometry.toString()
         );

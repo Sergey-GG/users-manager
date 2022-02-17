@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import springboot.webapp.usersmanager.PolygonGenerator;
 import springboot.webapp.usersmanager.controllers.PolygonController;
-import springboot.webapp.usersmanager.entities.Polygon;
+import springboot.webapp.usersmanager.entities.PolygonEntity;
 import springboot.webapp.usersmanager.services.PolygonService;
 
 import java.util.List;
@@ -38,7 +38,7 @@ class PolygonControllerTest {
     @Test
     @SneakyThrows
     void getAllWhenListIsNotEmptyStatusOk()   {
-        List<Polygon> polygons =  List.of(PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon());
+        List<PolygonEntity> polygons =  List.of(PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon(), PolygonGenerator.getPolygon());
 
         when(polygonService.getAll()).thenReturn(polygons);
 
@@ -55,7 +55,7 @@ class PolygonControllerTest {
     @Test
     @SneakyThrows
     public void getByIdWhenExistedPolygonStatusOk() {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
         when(polygonService.get(polygon.getId())).thenReturn(Optional.of(polygon));
 
@@ -86,7 +86,7 @@ class PolygonControllerTest {
     @Test
     @SneakyThrows
     void put()  {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
         when(polygonService.put(polygon)).thenReturn(true);
 
@@ -106,7 +106,7 @@ class PolygonControllerTest {
     @Test
     @SneakyThrows
     public void deleteWhenExistedPolygonStatusOk() {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
         when(polygonService.delete(polygon.getId())).thenReturn(true);
 
@@ -138,7 +138,7 @@ class PolygonControllerTest {
     @Test
     @SneakyThrows
     public void putWhenNonExistentPolygonStatusOk() {
-        final Polygon polygon = PolygonGenerator.getPolygon();
+        final PolygonEntity polygon = PolygonGenerator.getPolygon();
 
         when(polygonService.put(polygon)).thenReturn(true);
 

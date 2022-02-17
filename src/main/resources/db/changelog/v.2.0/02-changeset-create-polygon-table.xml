@@ -5,7 +5,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="3" author="Sergey_Gonchar">
-        <createTable tableName="polygon">
+        <createTable tableName="polygonEntity">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -17,7 +17,7 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="polygon"/>
+            <dropTable tableName="polygonEntity"/>
         </rollback>
     </changeSet>
 
